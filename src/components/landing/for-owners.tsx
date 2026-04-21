@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from '@formspree/react';
 
 const ForOwners = () => {
-  const [state, handleFormspreeSubmit] = useForm('xeeqveap');
+  const [state, handleFormspreeSubmit] = useForm('xjgjelzp');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -156,11 +156,10 @@ const ForOwners = () => {
                             key={type}
                             type="button"
                             onClick={() => setFormData({ ...formData, unitType: type })}
-                            className={`rounded-xl border px-5 py-2.5 text-sm font-bold transition-all duration-300 ${
-                              formData.unitType === type
+                            className={`rounded-xl border px-5 py-2.5 text-sm font-bold transition-all duration-300 ${formData.unitType === type
                                 ? 'scale-105 border-foreground bg-foreground text-white shadow-lg'
                                 : 'border-border bg-muted text-muted-foreground hover:border-border hover:bg-white'
-                            }`}
+                              }`}
                           >
                             {type}
                           </button>
