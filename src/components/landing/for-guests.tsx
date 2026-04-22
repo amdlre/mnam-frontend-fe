@@ -43,7 +43,7 @@ const ForGuests = () => {
 
   return (
     <div className="bg-card py-16 md:py-24" id="guests">
-      <Container className="px-6">
+      <Container size={"2xl"} className="px-6">
         <Flex direction="col" align="center" gap={12} className="lg:flex-row lg:gap-16">
           {/* Text Content */}
           <div className="w-full lg:w-5/12">

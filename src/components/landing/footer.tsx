@@ -101,7 +101,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
       <div className="relative z-10">
         {/* CTA Section */}
         <div className="border-b border-white/5">
-          <Container className="py-10 md:py-16">
+          <Container size={"2xl"} className="py-10 md:py-16">
             <div className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-primary/20 via-violet-600/10 to-indigo-600/20 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/20 md:rounded-[2.5rem] md:p-12">
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
 
@@ -163,7 +163,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
         </div>
 
         {/* Main Content */}
-        <Container className="pb-8 pt-12 md:pb-12 md:pt-20">
+        <Container size={"2xl"} className="pb-8 pt-12 md:pb-12 md:pt-20">
           <Grid cols={1} className="mb-12 gap-8 md:mb-16 md:grid-cols-2 md:gap-12 lg:grid-cols-12 lg:gap-8">
             {/* Logo & Description */}
             <div className="lg:col-span-4">

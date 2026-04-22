@@ -55,7 +55,7 @@ const ForOwners = () => {
         <div className="absolute left-1/2 top-1/2 h-[200px] w-[200px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500 opacity-50 blur-[80px] md:h-[300px] md:w-[300px] md:blur-[120px]"></div>
       </div>
 
-      <Container className="relative z-10 px-6">
+      <Container size={"2xl"} className="relative z-10 px-6">
         <Flex direction="col" gap={16} className="items-start lg:flex-row lg:gap-24">
           {/* Content */}
           <div className="reveal order-2 hidden text-white lg:sticky lg:top-24 lg:order-1 lg:block lg:w-5/12">

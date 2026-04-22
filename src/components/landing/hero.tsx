@@ -48,7 +48,7 @@ const Hero = () => {
       <div className="absolute bottom-0 left-0 -z-10 h-[300px] w-[300px] -translate-x-1/4 translate-y-1/3 animate-float-reverse rounded-full bg-fuchsia-500/10 blur-[60px] md:h-[600px] md:w-[600px] md:blur-[100px]"></div>
       <div className="absolute inset-0 -z-10 bg-gradient-radial from-white/80 via-transparent to-transparent opacity-60"></div>
 
-      <Container className="relative z-10 px-6">
+      <Container size={"2xl"} className="relative z-10 px-6">
         <Flex direction="col" align="center" gap={12} className="lg:flex-row lg:gap-24">
           {/* Text Content */}
           <div className="relative z-20 lg:w-1/2 ltr:text-left rtl:text-right">

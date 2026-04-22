@@ -101,7 +101,7 @@ const TrustStats = () => {
 
   return (
     <div className="overflow-hidden border-t border-border bg-background py-24">
-      <Container className="px-6">
+      <Container size={"2xl"} className="px-6">
         {/* Stats Grid */}
         <Grid cols={2} className="mb-24 divide-x divide-x-reverse divide-border/60 lg:grid-cols-4">
           {stats.map((stat, index) => (

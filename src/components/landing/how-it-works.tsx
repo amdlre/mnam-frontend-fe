@@ -26,7 +26,7 @@ const HowItWorks = ({ onOpenTerms }: HowItWorksProps) => {
 
   return (
     <div className="relative overflow-hidden bg-card py-32" id="how">
-      <Container className="relative z-10 px-6">
+      <Container size={"2xl"} className="relative z-10 px-6">
         <Stack align="center" gap={6} className="reveal mx-auto mb-24 max-w-2xl text-center">
           <Badge variant="secondary" className="rounded-none border-0 bg-transparent px-0 text-xs font-bold uppercase tracking-widest text-primary">
             {t('badge')}

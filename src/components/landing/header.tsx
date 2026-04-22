@@ -59,7 +59,7 @@ const Header = ({ isScrolled, activeSection }: HeaderProps) => {
         : 'border-transparent bg-transparent py-4 md:py-6'
         }`}
     >
-      <Container>
+      <Container size={"2xl"}>
         <Flex align="center" justify="between" className="relative px-6">
           {/* Mobile Menu Toggle */}
           <Button

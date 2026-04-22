@@ -39,7 +39,7 @@ const FAQ = () => {
 
   return (
     <div className="bg-muted/30 py-16 md:py-24" id="faq">
-      <Container size="lg">
+      <Container size={"2xl"}>
         <Stack align="center" gap={4} className="mb-10 text-center md:mb-16">
           <Badge className="rounded-full bg-primary/10 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             {t('badge')}

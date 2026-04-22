@@ -88,7 +88,7 @@ const WhyUs = () => {
       {/* Separator */}
       <Separator className="absolute left-0 top-0 bg-gradient-to-r from-transparent via-border to-transparent" />
 
-      <Container className="px-6">
+      <Container size={"2xl"} className="px-6">
         <Flex direction="col" justify="between" gap={8} className="mb-20 items-end md:flex-row">
           <div className="reveal max-w-2xl">
             <Badge variant="secondary" className="mb-4 rounded-none border-0 bg-transparent px-0 text-xs font-bold uppercase tracking-[0.2em] text-primary">
