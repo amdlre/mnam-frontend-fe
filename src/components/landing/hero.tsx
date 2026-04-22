@@ -2,6 +2,16 @@
 
 import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import {
+  Button,
+  Badge,
+  Typography,
+  Card,
+  CardContent,
+  Flex,
+  Grid,
+  Container,
+} from '@amdlre/design-system';
 
 const Hero = () => {
   const imageRef = useRef<HTMLDivElement>(null);
@@ -38,11 +48,11 @@ const Hero = () => {
       <div className="absolute bottom-0 left-0 -z-10 h-[300px] w-[300px] -translate-x-1/4 translate-y-1/3 animate-float-reverse rounded-full bg-fuchsia-500/10 blur-[60px] md:h-[600px] md:w-[600px] md:blur-[100px]"></div>
       <div className="absolute inset-0 -z-10 bg-gradient-radial from-white/80 via-transparent to-transparent opacity-60"></div>
 
-      <div className="container relative z-10 mx-auto px-6">
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-24">
+      <Container className="relative z-10 px-6">
+        <Flex direction="col" align="center" gap={12} className="lg:flex-row lg:gap-24">
           {/* Text Content */}
           <div className="relative z-20 lg:w-1/2 ltr:text-left rtl:text-right">
-            <div className="reveal group mb-8 inline-flex cursor-default items-center gap-2 rounded-full border border-white/40 bg-white/60 px-4 py-2   backdrop-blur-md transition-all hover:shadow-md">
+            <Badge className="reveal group mb-8 cursor-default rounded-full border-white/40 bg-white/60 px-4 py-2 backdrop-blur-md transition-all hover:shadow-md">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary transition-colors group-hover:bg-primary"></span>
@@ -50,21 +60,22 @@ const Hero = () => {
               <span className="text-xs font-bold tracking-wide text-foreground transition-colors group-hover:text-primary">
                 {t('badge')}
               </span>
-            </div>
+            </Badge>
 
-            <h1 className="reveal delay-100 mb-8 text-balance text-5xl font-black leading-[1.15] tracking-tighter text-foreground drop-  sm:text-6xl md:text-7xl md:leading-[1.1] lg:text-8xl">
+            <Typography as="h1" variant="h1" className="reveal delay-100 mb-8 text-balance text-5xl font-black leading-[1.15] tracking-tighter drop-  sm:text-6xl md:text-7xl md:leading-[1.1] lg:text-8xl">
               {t('titleLine1')} <br />
               <span className="bg-gradient-to-r from-primary via-purple-600 to-indigo-600 bg-clip-text pb-2 text-transparent">
                 {t('titleLine2')}
               </span>
-            </h1>
+            </Typography>
 
-            <p className="reveal delay-200 mb-10 max-w-xl text-balance text-lg font-normal leading-relaxed text-muted-foreground md:text-xl">
+            <Typography variant="lead" className="reveal delay-200 mb-10 max-w-xl text-balance leading-relaxed">
               {t('description')}
-            </p>
+            </Typography>
 
-            <div className="reveal delay-300 mb-16 flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row">
-              <button
+            <Flex direction="col" align="center" gap={4} className="reveal delay-300 mb-16 w-full sm:w-auto sm:flex-row">
+              <Button
+                size="lg"
                 onClick={() => scrollToSection('owners')}
                 className="group relative w-full overflow-hidden rounded-2xl bg-foreground px-10 py-5 text-base font-bold text-white shadow-2xl shadow-foreground/30 ring-4 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:bg-foreground/90 hover:ring-foreground/10 active:scale-95 sm:w-auto"
               >
@@ -80,35 +91,37 @@ const Hero = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
                 onClick={() => scrollToSection('guests')}
-                className="w-full rounded-2xl border border-border bg-white/60 px-10 py-5 text-base font-bold text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-white hover:text-primary hover:shadow-lg active:scale-95 sm:w-auto"
+                className="w-full rounded-2xl border-border bg-white/60 px-10 py-5 text-base font-bold backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-white hover:text-primary hover:shadow-lg active:scale-95 sm:w-auto"
               >
                 <span>{t('ctaBook')}</span>
-              </button>
-            </div>
+              </Button>
+            </Flex>
 
-            <div className="reveal delay-500 grid max-w-lg grid-cols-3 gap-6 border-t border-border/60 pt-8">
+            <Grid cols={3} gap={6} className="reveal delay-500 max-w-lg border-t border-border/60 pt-8">
               <div className="hover-target group cursor-default">
-                <p className="text-3xl font-black tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
+                <Typography variant="h3" className="text-3xl font-black tracking-tight transition-colors duration-300 group-hover:text-primary">
                   {t('stat1Value')}
-                </p>
-                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">{t('stat1Label')}</p>
+                </Typography>
+                <Typography variant="muted" className="mt-1 text-xs font-bold group-hover:text-foreground">{t('stat1Label')}</Typography>
               </div>
               <div className="hover-target group cursor-default">
-                <p className="text-3xl font-black tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
+                <Typography variant="h3" className="text-3xl font-black tracking-tight transition-colors duration-300 group-hover:text-primary">
                   {t('stat2Value')}
-                </p>
-                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">{t('stat2Label')}</p>
+                </Typography>
+                <Typography variant="muted" className="mt-1 text-xs font-bold group-hover:text-foreground">{t('stat2Label')}</Typography>
               </div>
               <div className="hover-target group cursor-default">
-                <p className="text-3xl font-black tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
+                <Typography variant="h3" className="text-3xl font-black tracking-tight transition-colors duration-300 group-hover:text-primary">
                   {t('stat3Value')}
-                </p>
-                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">{t('stat3Label')}</p>
+                </Typography>
+                <Typography variant="muted" className="mt-1 text-xs font-bold group-hover:text-foreground">{t('stat3Label')}</Typography>
               </div>
-            </div>
+            </Grid>
           </div>
 
           {/* Visual Content - 3D Tilt Effect */}
@@ -134,48 +147,48 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-80"></div>
 
               {/* Floating Review Card */}
-              <div
-                className="glass-card absolute bottom-8 left-6 right-6 rounded-3xl p-6 md:bottom-12 md:left-10 md:right-10"
+              <Card
+                className="glass-card absolute bottom-8 left-6 right-6 rounded-3xl border-0 p-6 md:bottom-12 md:left-10 md:right-10"
                 style={{ transform: 'translateZ(60px)' }}
               >
-                <div className="mb-4 flex items-center justify-between">
+                <Flex align="center" justify="between" className="mb-4">
                   <div className="flex -space-x-3 space-x-reverse">
                     {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="h-10 w-10 overflow-hidden rounded-full border-[3px] border-white bg-border  ">
+                      <div key={i} className="h-10 w-10 overflow-hidden rounded-full border-[3px] border-white bg-border">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="User" className="h-full w-full object-cover" />
                       </div>
                     ))}
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-[3px] border-white bg-foreground text-[10px] font-bold text-white  ">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-[3px] border-white bg-foreground text-[10px] font-bold text-white">
                       +2k
                     </div>
                   </div>
-                  <div className="flex text-lg text-amber-400 drop- ">★★★★★</div>
-                </div>
-                <p className="text-sm font-bold leading-relaxed text-foreground">
+                  <div className="flex text-lg text-amber-400 drop-">★★★★★</div>
+                </Flex>
+                <Typography variant="small" className="font-bold leading-relaxed">
                   &ldquo;{t('review')}&rdquo;
-                </p>
-              </div>
+                </Typography>
+              </Card>
             </div>
 
             {/* Decorative Elements */}
             <div className="absolute -right-16 -top-16 hidden h-72 w-72 animate-pulse-slow opacity-30 md:block"></div>
 
             {/* Stats Card */}
-            <div className="absolute -right-8 top-[40%] z-20 hidden cursor-pointer rounded-3xl border border-white/50 bg-white/95 p-6 shadow-xl backdrop-blur-xl transition-transform duration-300 hover:scale-105 md:-right-14 md:block">
-              <div className="flex items-center gap-5">
+            <Card className="absolute -right-8 top-[40%] z-20 hidden cursor-pointer rounded-3xl border-white/50 bg-white/95 p-6 shadow-xl backdrop-blur-xl transition-transform duration-300 hover:scale-105 md:-right-14 md:block">
+              <Flex align="center" gap={5}>
                 <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/20 text-3xl text-secondary shadow-inner">
                   📈
                 </div>
                 <div>
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('annualReturn')}</p>
-                  <p className="text-2xl font-black text-foreground">{t('returnRange')}</p>
+                  <Typography variant="muted" className="mb-1 text-[11px] font-bold uppercase tracking-wider">{t('annualReturn')}</Typography>
+                  <Typography variant="h3" className="text-2xl font-black">{t('returnRange')}</Typography>
                 </div>
-              </div>
-            </div>
+              </Flex>
+            </Card>
           </div>
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 };

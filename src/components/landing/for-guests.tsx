@@ -1,6 +1,14 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import {
+  Button,
+  Badge,
+  Typography,
+  Flex,
+  Container,
+  Stack,
+} from '@amdlre/design-system';
 
 const ForGuests = () => {
   const t = useTranslations('landing.forGuests');
@@ -35,38 +43,41 @@ const ForGuests = () => {
 
   return (
     <div className="bg-card py-16 md:py-24" id="guests">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
+      <Container className="px-6">
+        <Flex direction="col" align="center" gap={12} className="lg:flex-row lg:gap-16">
           {/* Text Content */}
           <div className="w-full lg:w-5/12">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-widest text-primary">{t('badge')}</span>
-            <h2 className="mb-6 text-3xl font-black leading-tight text-foreground md:text-4xl lg:text-5xl">
+            <Badge variant="secondary" className="mb-4 rounded-none border-0 bg-transparent px-0 text-xs font-bold uppercase tracking-widest text-primary">
+              {t('badge')}
+            </Badge>
+            <Typography variant="h2" className="mb-6 text-3xl font-black leading-tight md:text-4xl lg:text-5xl">
               {t('titleLine1')} <br />
               <span className="text-primary">{t('titleLine2')}</span>
-            </h2>
-            <p className="mb-10 text-base leading-relaxed text-muted-foreground md:text-lg">
+            </Typography>
+            <Typography variant="lead" className="mb-10 text-base leading-relaxed text-muted-foreground md:text-lg">
               {t('description')}
-            </p>
+            </Typography>
 
-            <div className="mb-10 space-y-6">
+            <Stack gap={6} className="mb-10">
               {features.map((f, i) => (
-                <div key={i} className="flex items-start gap-4">
+                <Flex key={i} align="start" gap={4}>
                   <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-secondary/20">
                     <svg className="h-3.5 w-3.5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-foreground">{f.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{f.desc}</p>
+                    <Typography variant="large" className="text-lg">{f.title}</Typography>
+                    <Typography variant="muted" className="mt-1">{f.desc}</Typography>
                   </div>
-                </div>
+                </Flex>
               ))}
-            </div>
+            </Stack>
 
-            <button
+            <Button
+              size="lg"
               onClick={handleBrowseUnits}
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-foreground px-8 py-4 font-bold text-white shadow-xl shadow-border transition-all hover:bg-foreground/90 sm:w-auto"
+              className="group w-full rounded-xl bg-foreground px-8 py-4 font-bold text-white shadow-xl shadow-border transition-all hover:bg-foreground/90 sm:w-auto"
             >
               <span>{t('browseUnits')}</span>
               <svg
@@ -77,7 +88,7 @@ const ForGuests = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </button>
+            </Button>
           </div>
 
           {/* Grid Layout Images */}
@@ -93,14 +104,14 @@ const ForGuests = () => {
                   />
                   <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-black/40"></div>
                   <div className="absolute bottom-4 right-4 hidden translate-y-2 text-white opacity-0 transition-opacity duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:block">
-                    <p className="text-lg font-bold">{img.alt}</p>
+                    <Typography variant="large" className="text-white">{img.alt}</Typography>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </div>
   );
 };

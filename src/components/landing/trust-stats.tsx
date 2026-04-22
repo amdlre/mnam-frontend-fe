@@ -2,6 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
+import {
+  Typography,
+  Grid,
+  Container,
+} from '@amdlre/design-system';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface AnimatedCounterProps {
   end: string;
@@ -47,7 +54,7 @@ const AnimatedCounter = ({ end, suffix = '', duration = 2000 }: AnimatedCounterP
 
       if (progress < duration) {
         const percentage = progress / duration;
-        const ease = 1 - Math.pow(1 - percentage, 4); // Ease out quart
+        const ease = 1 - Math.pow(1 - percentage, 4);
         setCount(Math.floor(target * ease));
         animationFrame = requestAnimationFrame(updateCount);
       } else {
@@ -86,79 +93,65 @@ const TrustStats = () => {
   ];
 
   const partners = [
-    {
-      name: 'Ministry of Tourism',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ministry_of_Tourism_of_Saudi_Arabia_Logo.svg/512px-Ministry_of_Tourism_of_Saudi_Arabia_Logo.svg.png',
-    },
-    { name: 'Gathern', logo: 'https://i.postimg.cc/c4f0R57w/Gathern-Logo.png' },
-    {
-      name: 'Booking.com',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/512px-Booking.com_logo.svg.png',
-    },
-    { name: 'Airbnb', logo: 'https://i.postimg.cc/jqQ7Mv4f/Airbnb-Logo.png' },
-    {
-      name: 'Ministry of Tourism',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ministry_of_Tourism_of_Saudi_Arabia_Logo.svg/512px-Ministry_of_Tourism_of_Saudi_Arabia_Logo.svg.png',
-    },
-    { name: 'Gathern', logo: 'https://i.postimg.cc/c4f0R57w/Gathern-Logo.png' },
-    {
-      name: 'Booking.com',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/512px-Booking.com_logo.svg.png',
-    },
-    { name: 'Airbnb', logo: 'https://i.postimg.cc/jqQ7Mv4f/Airbnb-Logo.png' },
+    { name: 'Ministry of Tourism', logo: '/images/Ministry-of-Tourism.svg', url: 'https://mt.gov.sa' },
+    { name: 'Gathern', logo: '/images/Gather-n.svg', url: 'https://gathern.co' },
+    { name: 'Booking.com', logo: '/images/Booking-com.svg', url: 'https://booking.com' },
+    { name: 'Airbnb', logo: '/images/Airbnb.svg', url: 'https://airbnb.com' },
   ];
 
   return (
     <div className="overflow-hidden border-t border-border bg-background py-24">
-      <div className="container mx-auto px-6">
+      <Container className="px-6">
         {/* Stats Grid */}
-        <div className="mb-24 grid grid-cols-2 divide-x divide-x-reverse divide-border/60 lg:grid-cols-4">
+        <Grid cols={2} className="mb-24 divide-x divide-x-reverse divide-border/60 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <div key={index} className="reveal delay-100 p-4 text-center">
-              <span className="mb-2 block font-sans text-5xl font-black tracking-tight text-foreground md:text-6xl">
+              <Typography variant="h1" className="mb-2 font-sans text-5xl font-black tracking-tight md:text-6xl">
                 <AnimatedCounter end={stat.value} />
-              </span>
-              <span className="block text-lg font-bold text-foreground">{stat.label}</span>
-              <span className="mt-1 block text-sm text-muted-foreground">{stat.sub}</span>
+              </Typography>
+              <Typography variant="large" className="text-lg">{stat.label}</Typography>
+              <Typography variant="muted" className="mt-1">{stat.sub}</Typography>
             </div>
           ))}
-        </div>
+        </Grid>
 
         {/* Infinite Marquee Partners */}
         <div className="reveal delay-300 text-center">
-          <p className="mb-16 text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">
-            <span className="animate-pulse bg-gradient-to-l from-amber-500 via-yellow-500 to-amber-600 bg-clip-text text-sm font-black text-transparent">
+          <Typography variant="muted" className="mb-16 text-xs font-bold uppercase tracking-[0.3em]">
+            <span className="animate-pulse bg-linear-to-l from-amber-500 via-yellow-500 to-amber-600 bg-clip-text text-sm font-black text-transparent">
               {t('partnersTitle')}
             </span>
             <span className="mx-2">&bull;</span>
             {t('partnersSeparator')}
-          </p>
+          </Typography>
 
           <div className="mask-linear-fade relative w-full overflow-hidden">
             <div className="flex w-max animate-marquee items-center gap-24 opacity-60 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0">
               {[...partners, ...partners].map((partner, idx) => {
-                const isBig = partner.name === 'Gathern' || partner.name === 'Airbnb';
                 return (
-                  <div
+                  <Link
                     key={idx}
-                    className={`flex min-w-[180px] items-center justify-center ${isBig ? 'h-32' : 'h-16'}`}
+                    href={partner.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-w-[180px] items-center justify-center"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                       src={partner.logo}
                       alt={partner.name}
-                      className={`h-full w-auto object-contain transition-transform duration-300 hover:scale-110 ${isBig ? 'max-w-[280px]' : 'max-w-[160px]'}`}
+                      width={200}
+                      height={200}
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none';
                       }}
                     />
-                  </div>
+                  </Link>
                 );
               })}
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

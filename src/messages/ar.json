@@ -145,6 +145,8 @@
       "placeholderPhone": "05xxxxxxxx",
       "labelCity": "المدينة",
       "placeholderCity": "مثلاً: الرياض",
+      "citySearchPlaceholder": "ابحث عن المدينة...",
+      "cityEmptyMessage": "لم يتم العثور على المدينة.",
       "labelUnitCount": "عدد الوحدات",
       "placeholderUnitCount": "مثلاً: 1",
       "labelUnitType": "نوع الوحدات",

@@ -143,6 +143,9 @@
   --tw-ring-offset-color: hsl(var(--background));
 }
 
+/* ===== Shared Form Styles (from design system) ===== */
+@import '@amdlre/design-system/styles/forms';
+
 /* ===== Landing Page Global Styles ===== */
 
 /* Scroll behavior */

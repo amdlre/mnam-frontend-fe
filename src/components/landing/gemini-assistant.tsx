@@ -3,6 +3,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from '@google/genai';
 import { useTranslations, useLocale } from 'next-intl';
+import {
+  Button,
+  Input,
+  Typography,
+  Card,
+  ScrollArea,
+  Flex,
+  Stack,
+} from '@amdlre/design-system';
 
 const KNOWLEDGE_BASE = `
   معلومات شركة "منام" (Manam):
@@ -110,7 +119,7 @@ const GeminiAssistant = () => {
       {isOpen && <div className="absolute inset-0 md:hidden" onClick={() => setIsOpen(false)}></div>}
 
       {isOpen ? (
-        <div className="absolute bottom-0 flex h-[90vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-border/50 bg-white shadow-2xl md:relative md:h-[550px] md:w-[400px] md:rounded-[1.5rem] ltr:text-left rtl:text-right">
+        <Card className="absolute bottom-0 flex h-[90vh] w-full flex-col overflow-hidden rounded-t-[2rem] border-border/50 bg-white shadow-2xl md:relative md:h-[550px] md:w-[400px] md:rounded-[1.5rem] ltr:text-left rtl:text-right">
           {/* Header */}
           <div className="relative flex flex-shrink-0 items-center justify-between overflow-hidden bg-gradient-to-r from-primary via-violet-600 to-indigo-600 p-4 text-white shadow-lg md:p-5">
             <div className="absolute inset-0 opacity-10">
@@ -118,7 +127,7 @@ const GeminiAssistant = () => {
               <div className="absolute bottom-0 left-0 h-24 w-24 -translate-x-1/2 translate-y-1/2 rounded-full bg-white blur-2xl"></div>
             </div>
 
-            <div className="relative z-10 flex items-center gap-3">
+            <Flex align="center" gap={3} className="relative z-10">
               <div className="group relative">
                 <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-transparent p-1.5 transition-transform group-hover:scale-105">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -129,16 +138,18 @@ const GeminiAssistant = () => {
                 </div>
               </div>
               <div>
-                <span className="block text-base font-bold">{t('name')}</span>
-                <span className="flex items-center gap-1 text-[11px] text-white/80">
+                <Typography variant="large" className="text-base text-white">{t('name')}</Typography>
+                <Typography variant="small" className="flex items-center gap-1 text-[11px] text-white/80">
                   <span className="h-1.5 w-1.5 rounded-full bg-green-400"></span>
                   {t('online')} &bull; {t('ai')}
-                </span>
+                </Typography>
               </div>
-            </div>
-            <button
+            </Flex>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setIsOpen(false)}
-              className="group relative z-10 flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 transition-all duration-200 hover:bg-white/20"
+              className="group relative z-10 h-10 w-10 rounded-xl bg-white/10 text-white hover:bg-white/20 hover:text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -149,79 +160,84 @@ const GeminiAssistant = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+            </Button>
           </div>
 
           {/* Chat Area */}
-          <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto bg-gradient-to-b from-muted to-card p-4">
-            {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === 'user' ? 'justify-start' : 'justify-end'}`}>
-                {m.role === 'assistant' && (
-                  <div className="ml-2 mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-transparent p-1">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/mnam-logo.png" alt="Bot" className="h-full w-full object-contain" />
+          <ScrollArea ref={scrollRef} className="flex-1 bg-gradient-to-b from-muted to-card">
+            <Stack gap={4} className="p-4">
+              {messages.map((m, i) => (
+                <Flex key={i} className={m.role === 'user' ? 'justify-start' : 'justify-end'}>
+                  {m.role === 'assistant' && (
+                    <div className="ml-2 mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-transparent p-1">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/mnam-logo.png" alt="Bot" className="h-full w-full object-contain" />
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[85%] whitespace-pre-wrap rounded-2xl p-4 text-sm leading-relaxed ${m.role === 'user'
+                        ? 'rounded-tr-sm bg-gradient-to-r from-primary to-violet-600 text-white shadow-lg shadow-primary/20'
+                        : 'rounded-tl-sm border border-border bg-white text-foreground shadow-md'
+                      }`}
+                  >
+                    {m.text}
                   </div>
-                )}
-                <div
-                  className={`max-w-[85%] whitespace-pre-wrap rounded-2xl p-4 text-sm leading-relaxed ${m.role === 'user'
-                      ? 'rounded-tr-sm bg-gradient-to-r from-primary to-violet-600 text-white shadow-lg shadow-primary/20'
-                      : 'rounded-tl-sm border border-border bg-white text-foreground shadow-md'
-                    }`}
-                >
-                  {m.text}
-                </div>
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex items-center justify-end gap-2">
-                <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-sm border border-border bg-white px-5 py-4 shadow-md">
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-primary"></div>
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-violet-500 [animation-delay:0.15s]"></div>
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-indigo-500 [animation-delay:0.3s]"></div>
-                </div>
-              </div>
-            )}
-          </div>
+                </Flex>
+              ))}
+              {isLoading && (
+                <Flex align="center" justify="end" gap={2}>
+                  <Flex align="center" gap={1} className="rounded-2xl rounded-tl-sm border border-border bg-white px-5 py-4 shadow-md">
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-primary"></div>
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-violet-500 [animation-delay:0.15s]"></div>
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-indigo-500 [animation-delay:0.3s]"></div>
+                  </Flex>
+                </Flex>
+              )}
+            </Stack>
+          </ScrollArea>
 
           {/* Suggestions & Input */}
           <div className="flex-shrink-0 border-t border-border bg-white">
             {messages.length < 3 && (
-              <div className="flex gap-2 overflow-x-auto px-3 py-3">
+              <Flex gap={2} className="overflow-x-auto px-3 py-3">
                 {suggestions.map((s, i) => (
-                  <button
+                  <Button
                     key={i}
+                    variant="outline"
+                    size="sm"
                     onClick={() => handleSend(s)}
-                    className="flex-shrink-0 whitespace-nowrap rounded-xl border border-border bg-gradient-to-r from-muted to-muted px-4 py-2 text-xs font-medium   transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary hover:shadow-md"
+                    className="flex-shrink-0 whitespace-nowrap rounded-xl border-border bg-gradient-to-r from-muted to-muted px-4 py-2 text-xs font-medium transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary hover:shadow-md"
                   >
                     {s}
-                  </button>
+                  </Button>
                 ))}
-              </div>
+              </Flex>
             )}
 
-            <div className="flex items-center gap-2 p-3 pt-2">
-              <input
+            <Flex align="center" gap={2} className="p-3 pt-2">
+              <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder={t('placeholder')}
-                className="flex-1 rounded-xl border border-border bg-muted px-4 py-3.5 text-sm transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/10 ltr:text-left rtl:text-right"
+                className="flex-1 rounded-xl border-border bg-muted px-4 py-3.5 transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10 ltr:text-left rtl:text-right"
               />
-              <button
+              <Button
+                size="icon"
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isLoading}
                 className={`rounded-xl p-3 transition-all duration-200 ${!input.trim() || isLoading
-                    ? 'bg-muted text-muted-foreground'
+                    ? 'bg-muted text-muted-foreground hover:bg-muted'
                     : 'bg-gradient-to-r from-primary to-violet-600 text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30 active:scale-95'
                   }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 -rotate-90 transform" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                 </svg>
-              </button>
-            </div>
+              </Button>
+            </Flex>
           </div>
-        </div>
+        </Card>
       ) : (
         /* Open Button */
         <div className="relative">
@@ -230,9 +246,10 @@ const GeminiAssistant = () => {
             <span className="relative inline-flex h-5 w-5 rounded-full border-2 border-white bg-green-500 shadow-md"></span>
           </span>
 
-          <button
+          <Button
+            size="icon"
             onClick={() => setIsOpen(true)}
-            className="group relative z-40 flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-violet-600 to-indigo-600 text-white shadow-xl shadow-primary/30 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-primary/40"
+            className="group relative z-40 h-16 w-16 overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-violet-600 to-indigo-600 text-white shadow-xl shadow-primary/30 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-primary/40"
           >
             <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full"></span>
             <svg
@@ -250,7 +267,7 @@ const GeminiAssistant = () => {
             <span className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-3 py-1.5 text-xs font-bold text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
               {t('tooltip')}
             </span>
-          </button>
+          </Button>
         </div>
       )}
     </div>

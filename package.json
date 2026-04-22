@@ -10,7 +10,7 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@amdlre/design-system": "^0.3.1",
+    "@amdlre/design-system": "file:../../amdlre-design-system",
     "@formspree/react": "^3.0.0",
     "@google/genai": "^1.50.1",
     "@hookform/resolvers": "^5.2.2",

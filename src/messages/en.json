@@ -145,6 +145,8 @@
       "placeholderPhone": "05xxxxxxxx",
       "labelCity": "City",
       "placeholderCity": "e.g. Riyadh",
+      "citySearchPlaceholder": "Search city...",
+      "cityEmptyMessage": "No city found.",
       "labelUnitCount": "Number of Units",
       "placeholderUnitCount": "e.g. 1",
       "labelUnitType": "Unit Type",

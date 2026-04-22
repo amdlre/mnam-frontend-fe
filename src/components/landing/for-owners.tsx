@@ -2,11 +2,27 @@
 
 import { useState } from 'react';
 import { useForm } from '@formspree/react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import {
+  Button,
+  Input,
+  Label,
+  Badge,
+  Card,
+  CardContent,
+  Typography,
+  Combobox,
+  Flex,
+  Grid,
+  Stack,
+  Container,
+  getSaudiCities,
+} from '@amdlre/design-system';
 
 const ForOwners = () => {
   const [state, handleFormspreeSubmit] = useForm('xjgjelzp');
   const t = useTranslations('landing.forOwners');
+  const locale = useLocale();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -14,6 +30,8 @@ const ForOwners = () => {
     unitType: '',
     unitCount: '',
   });
+
+  const cityOptions = getSaudiCities(locale as 'ar' | 'en');
 
   const unitTypes = [
     { key: 'unitTypeApartments', value: t('unitTypeApartments') },
@@ -37,171 +55,167 @@ const ForOwners = () => {
         <div className="absolute left-1/2 top-1/2 h-[200px] w-[200px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500 opacity-50 blur-[80px] md:h-[300px] md:w-[300px] md:blur-[120px]"></div>
       </div>
 
-      <div className="container relative z-10 mx-auto px-6">
-        <div className="flex flex-col items-start gap-16 lg:flex-row lg:gap-24">
+      <Container className="relative z-10 px-6">
+        <Flex direction="col" gap={16} className="items-start lg:flex-row lg:gap-24">
           {/* Content */}
           <div className="reveal order-2 hidden text-white lg:sticky lg:top-24 lg:order-1 lg:block lg:w-5/12">
-            <div className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-xs font-bold text-slate-200 shadow-glass backdrop-blur-md md:mb-8 md:text-sm">
+            <Badge className="mb-6 rounded-full border-white/10 bg-white/10 text-slate-200 shadow-glass backdrop-blur-md md:mb-8">
               {t('badge')} 🏢
-            </div>
-            <h2 className="mb-8 text-3xl font-black leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
+            </Badge>
+            <Typography as="h2" variant="h1" className="mb-8 text-3xl font-black leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
               {t('titleLine1')} <br />
-              <span className="bg-gradient-to-r from-primary via-violet-400 to-indigo-400 bg-clip-text text-transparent">{t('titleLine2')}</span>
-            </h2>
-            <p className="mb-12 max-w-xl text-lg font-light leading-relaxed text-slate-300 md:text-xl">
+              <span className="bg-linear-to-r from-primary via-violet-400 to-indigo-400 bg-clip-text text-transparent">{t('titleLine2')}</span>
+            </Typography>
+            <Typography variant="lead" className="mb-12 max-w-xl font-light leading-relaxed text-slate-300">
               {t('description')}
-            </p>
+            </Typography>
 
-            <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 md:gap-x-10">
+            <Grid cols={2} className="gap-x-6 gap-y-10 md:gap-x-10">
               {[
                 { title: t('benefit1Title'), desc: t('benefit1Desc'), icon: '🛡️' },
                 { title: t('benefit2Title'), desc: t('benefit2Desc'), icon: '📄' },
                 { title: t('benefit3Title'), desc: t('benefit3Desc'), icon: '💸' },
                 { title: t('benefit4Title'), desc: t('benefit4Desc'), icon: '🔍' },
               ].map((item, idx) => (
-                <div key={idx} className="group flex gap-4">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-xl shadow-inner transition-all duration-300 group-hover:border-primary/50 group-hover:bg-primary/20">
+                <Flex key={idx} gap={4} className="group">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-xl shadow-inner transition-all duration-300 group-hover:border-primary/50 group-hover:bg-primary/20">
                     {item.icon}
                   </div>
                   <div>
-                    <h3 className="font-bold text-white transition-colors group-hover:text-primary">{item.title}</h3>
-                    <p className="text-sm font-light leading-relaxed text-slate-400 transition-colors group-hover:text-slate-300">
+                    <Typography variant="large" className="text-white transition-colors group-hover:text-primary">{item.title}</Typography>
+                    <Typography variant="small" className="font-light leading-relaxed text-slate-400 transition-colors group-hover:text-slate-300">
                       {item.desc}
-                    </p>
+                    </Typography>
                   </div>
-                </div>
+                </Flex>
               ))}
-            </div>
+            </Grid>
           </div>
 
           {/* Form Card */}
           <div className="reveal delay-200 order-1 w-full lg:order-2 lg:w-7/12">
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/20 bg-white/95 p-6 shadow-2xl backdrop-blur-xl md:p-10">
-              <div className="relative z-10">
-                <div className="mb-8">
-                  <h3 className="mb-2 text-2xl font-black tracking-tight text-foreground md:text-3xl">{t('formTitle')}</h3>
-                  <p className="text-sm font-medium text-muted-foreground">{t('formSubtitle')}</p>
-                </div>
+            <Card className="overflow-hidden rounded-[2.5rem] border-white/20 bg-white/95 shadow-2xl backdrop-blur-xl">
+              <CardContent className="p-6 md:p-10">
+                <Stack gap={2} className="mb-8">
+                  <Typography variant="h3" className="font-black tracking-tight text-foreground">{t('formTitle')}</Typography>
+                  <Typography variant="muted">{t('formSubtitle')}</Typography>
+                </Stack>
 
                 {state.succeeded ? (
-                  <div className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-3xl border border-green-100 bg-green-50 p-8 py-24 text-center">
-                    <div className="mb-6 flex h-20 w-20 animate-bounce items-center justify-center rounded-full bg-green-100 text-3xl">🎉</div>
-                    <h4 className="mb-2 text-2xl font-black text-green-900">{t('successTitle')}</h4>
-                    <p className="font-medium text-green-700">{t('successMessage')}</p>
-                  </div>
+                  <Card className="min-h-[400px] rounded-3xl border-green-100 bg-green-50">
+                    <CardContent className="flex h-full flex-col items-center justify-center p-8 py-24 text-center">
+                      <div className="mb-6 flex h-20 w-20 animate-bounce items-center justify-center rounded-full bg-green-100 text-3xl">🎉</div>
+                      <Typography variant="h3" className="mb-2 font-black text-green-900">{t('successTitle')}</Typography>
+                      <Typography className="font-medium text-green-700">{t('successMessage')}</Typography>
+                    </CardContent>
+                  </Card>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5 md:space-y-8">
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
-                      <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
-                          {t('labelName')}
-                        </label>
-                        <input
-                          required
-                          type="text"
-                          name="name"
-                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
-                          placeholder={t('placeholderName')}
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        />
-                      </div>
-                      <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
-                          {t('labelPhone')}
-                        </label>
-                        <input
-                          required
-                          type="tel"
-                          name="phone"
-                          placeholder={t('placeholderPhone')}
-                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 text-left font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
-                          dir="ltr"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        />
-                      </div>
-                    </div>
+                  <form onSubmit={handleSubmit}>
+                    <Stack gap={5} className="md:gap-8">
+                      <Grid cols={1} className="gap-4 md:grid-cols-2 md:gap-5">
+                        <Stack gap={2} className="group">
+                          <Label className="form-label">{t('labelName')}</Label>
+                          <Input
+                            required
+                            type="text"
+                            name="name"
+                            className="form-input"
+                            placeholder={t('placeholderName')}
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          />
+                        </Stack>
+                        <Stack gap={2} className="group">
+                          <Label className="form-label">{t('labelPhone')}</Label>
+                          <Input
+                            required
+                            type="number"
+                            name="phone"
+                            placeholder={t('placeholderPhone')}
+                            className="form-input text-left"
+                            dir="ltr"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          />
+                        </Stack>
+                      </Grid>
 
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
-                      <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
-                          {t('labelCity')}
-                        </label>
-                        <input
-                          required
-                          type="text"
-                          name="city"
-                          placeholder={t('placeholderCity')}
-                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
-                          value={formData.city}
-                          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        />
-                      </div>
-                      <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
-                          {t('labelUnitCount')}
-                        </label>
-                        <input
-                          required
-                          type="number"
-                          name="unitCount"
-                          min="1"
-                          placeholder={t('placeholderUnitCount')}
-                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
-                          value={formData.unitCount}
-                          onChange={(e) => setFormData({ ...formData, unitCount: e.target.value })}
-                        />
-                      </div>
-                    </div>
+                      <Grid cols={1} className="gap-4 md:grid-cols-2 md:gap-5">
+                        <Stack gap={2} className="group">
+                          <Label className="form-label">{t('labelCity')}</Label>
+                          <Combobox
+                            options={cityOptions}
+                            value={formData.city}
+                            onValueChange={(val) => setFormData({ ...formData, city: val })}
+                            placeholder={t('placeholderCity')}
+                            searchPlaceholder={t('citySearchPlaceholder')}
+                            emptyMessage={t('cityEmptyMessage')}
+                            className="form-input h-auto w-full"
+                          />
+                          <input type="hidden" name="city" required value={formData.city} />
+                        </Stack>
+                        <Stack gap={2} className="group">
+                          <Label className="form-label">{t('labelUnitCount')}</Label>
+                          <Input
+                            required
+                            type="number"
+                            name="unitCount"
+                            min="1"
+                            placeholder={t('placeholderUnitCount')}
+                            className="form-input"
+                            value={formData.unitCount}
+                            onChange={(e) => setFormData({ ...formData, unitCount: e.target.value })}
+                          />
+                        </Stack>
+                      </Grid>
 
-                    {/* Unit Type Selection */}
-                    <div className="space-y-3">
-                      <label className="mr-1 block text-xs font-bold text-muted-foreground">{t('labelUnitType')}</label>
-                      <div className="flex flex-wrap gap-2">
-                        {unitTypes.map((type) => (
-                          <button
-                            key={type.key}
-                            type="button"
-                            onClick={() => setFormData({ ...formData, unitType: type.value })}
-                            className={`rounded-xl border px-5 py-2.5 text-sm font-bold transition-all duration-300 ${formData.unitType === type.value
-                                ? 'scale-105 border-foreground bg-foreground text-white shadow-lg'
-                                : 'border-border bg-muted text-muted-foreground hover:border-border hover:bg-white'
-                              }`}
-                          >
-                            {type.value}
-                          </button>
-                        ))}
-                      </div>
-                      <input type="hidden" name="unitType" required value={formData.unitType} />
-                    </div>
+                      {/* Unit Type Selection */}
+                      <Stack gap={3}>
+                        <Label className="form-label">{t('labelUnitType')}</Label>
+                        <Flex wrap="wrap" gap={2}>
+                          {unitTypes.map((type) => (
+                            <Button
+                              key={type.key}
+                              type="button"
+                              variant={formData.unitType === type.value ? 'default' : 'outline'}
+                              onClick={() => setFormData({ ...formData, unitType: type.value })}
+                              className={`form-unit-btn ${formData.unitType === type.value ? 'form-unit-btn-active' : 'form-unit-btn-inactive'}`}
+                            >
+                              {type.value}
+                            </Button>
+                          ))}
+                        </Flex>
+                        <input type="hidden" name="unitType" required value={formData.unitType} />
+                      </Stack>
 
-                    <button
-                      type="submit"
-                      disabled={state.submitting || !formData.unitType}
-                      className="group relative mt-6 w-full overflow-hidden rounded-2xl bg-primary py-4 text-lg font-black text-white shadow-xl shadow-primary/30 transition-all hover:-translate-y-1 hover:bg-primary/90 active:scale-95 disabled:cursor-not-allowed disabled:bg-muted md:py-5"
-                    >
-                      {state.submitting ? (
-                        <div className="flex items-center justify-center gap-2">
-                          <div className="h-2 w-2 animate-bounce rounded-full bg-white"></div>
-                          <div className="h-2 w-2 animate-bounce rounded-full bg-white delay-100"></div>
-                          <div className="h-2 w-2 animate-bounce rounded-full bg-white delay-200"></div>
-                        </div>
-                      ) : (
-                        <>
-                          <span className="absolute inset-0 h-full w-full -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]"></span>
-                          <span className="relative z-10">{t('submitButton')}</span>
-                        </>
-                      )}
-                    </button>
-                    <p className="mt-2 text-center text-[10px] text-muted-foreground">{t('privacyNote')}</p>
+                      <Button
+                        type="submit"
+                        size={"xl"}
+                        disabled={state.submitting || !formData.unitType}
+                        className='!form-unit-btn'
+                      >
+                        {state.submitting ? (
+                          <Flex align="center" justify="center" gap={2}>
+                            <div className="h-2 w-2 animate-bounce rounded-full bg-white"></div>
+                            <div className="h-2 w-2 animate-bounce rounded-full bg-white delay-100"></div>
+                            <div className="h-2 w-2 animate-bounce rounded-full bg-white delay-200"></div>
+                          </Flex>
+                        ) : (
+                          <>
+                            <span className="absolute inset-0 h-full w-full -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]"></span>
+                            <span className="relative z-10">{t('submitButton')}</span>
+                          </>
+                        )}
+                      </Button>
+                      <Typography variant="muted" className="mt-2 text-center text-[10px]">{t('privacyNote')}</Typography>
+                    </Stack>
                   </form>
                 )}
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </div>
   );
 };

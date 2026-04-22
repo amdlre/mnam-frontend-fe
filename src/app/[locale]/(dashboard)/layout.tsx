@@ -1,4 +1,4 @@
-import { Typography } from '@amdlre/design-system';
+import { Typography, Stack } from '@amdlre/design-system';
 import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardLayout({
@@ -14,14 +14,14 @@ export default async function DashboardLayout({
         <Typography variant="h3" className="mb-6">
           {t('dashboard')}
         </Typography>
-        <nav className="space-y-2">
+        <Stack as="nav" gap={2}>
           <Typography variant="p" className="text-muted-foreground">
             {t('home')}
           </Typography>
           <Typography variant="p" className="text-muted-foreground">
             {t('settings')}
           </Typography>
-        </nav>
+        </Stack>
       </aside>
       <main className="flex-1 p-6">{children}</main>
     </div>

@@ -10,6 +10,8 @@ import {
   Label,
   Typography,
   Card,
+  Stack,
+  Center,
   useToast,
 } from '@amdlre/design-system';
 
@@ -54,56 +56,58 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="mx-auto w-full max-w-md p-6">
-      <Typography variant="h2" className="mb-6 text-center">
-        {t('title')}
-      </Typography>
+    <Center>
+      <Card className="w-full max-w-md p-6">
+        <Typography variant="h2" className="mb-6 text-center">
+          {t('title')}
+        </Typography>
 
-      {serverError && (
-        <div className="mb-4 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {serverError}
-        </div>
-      )}
+        {serverError && (
+          <div className="mb-4 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+            {serverError}
+          </div>
+        )}
 
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">{t('email')}</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder={t('emailPlaceholder')}
-            {...register('email')}
-          />
-          {errors.email && (
-            <Typography variant="p" className="text-sm text-destructive">
-              {errors.email.message}
-            </Typography>
-          )}
-        </div>
+        <Stack gap={4}>
+          <Stack gap={2}>
+            <Label htmlFor="email">{t('email')}</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder={t('emailPlaceholder')}
+              {...register('email')}
+            />
+            {errors.email && (
+              <Typography variant="p" className="text-sm text-destructive">
+                {errors.email.message}
+              </Typography>
+            )}
+          </Stack>
 
-        <div className="space-y-2">
-          <Label htmlFor="password">{t('password')}</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            {...register('password')}
-          />
-          {errors.password && (
-            <Typography variant="p" className="text-sm text-destructive">
-              {errors.password.message}
-            </Typography>
-          )}
-        </div>
+          <Stack gap={2}>
+            <Label htmlFor="password">{t('password')}</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              {...register('password')}
+            />
+            {errors.password && (
+              <Typography variant="p" className="text-sm text-destructive">
+                {errors.password.message}
+              </Typography>
+            )}
+          </Stack>
 
-        <Button
-          className="w-full"
-          disabled={isPending}
-          onClick={handleSubmit(onSubmit)}
-        >
-          {isPending ? t('loading') : t('submit')}
-        </Button>
-      </div>
-    </Card>
+          <Button
+            className="w-full"
+            disabled={isPending}
+            onClick={handleSubmit(onSubmit)}
+          >
+            {isPending ? t('loading') : t('submit')}
+          </Button>
+        </Stack>
+      </Card>
+    </Center>
   );
 }
