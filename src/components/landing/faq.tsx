@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import {
-  Badge,
+  CustomBadge,
   Button,
   Typography,
   Accordion,
@@ -41,9 +41,9 @@ const FAQ = () => {
     <div className="bg-muted/30 py-16 md:py-24" id="faq">
       <Container size={"2xl"}>
         <Stack align="center" gap={4} className="mb-10 text-center md:mb-16">
-          <Badge className="rounded-full bg-primary/10 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+          <CustomBadge>
             {t('badge')}
-          </Badge>
+          </CustomBadge>
           <Typography variant="h2" className="text-2xl font-bold md:text-3xl lg:text-4xl">{t('title')}</Typography>
           <Typography variant="muted" className="text-sm md:text-base">{t('subtitle')}</Typography>
         </Stack>

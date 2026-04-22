@@ -3,7 +3,7 @@
 import { useTranslations, useLocale } from 'next-intl';
 import {
   Button,
-  Badge,
+  CustomBadge,
   Card,
   CardContent,
   Typography,
@@ -47,9 +47,9 @@ const ForOwners = () => {
         <Flex direction="col" gap={16} className="items-start lg:flex-row lg:gap-24">
           {/* Content */}
           <div className="reveal order-2 hidden text-white lg:sticky lg:top-24 lg:order-1 lg:block lg:w-5/12">
-            <Badge className="mb-6 rounded-full border-white/10 bg-white/10 text-slate-200 shadow-glass backdrop-blur-md md:mb-8">
-              {t('badge')} 🏢
-            </Badge>
+            <CustomBadge className="mb-6 border-white/10 bg-white/10 text-slate-200 shadow-glass backdrop-blur-md md:mb-8">
+              {t('badge')}
+            </CustomBadge>
             <Typography as="h2" variant="h1" className="mb-8 text-3xl font-black leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
               {t('titleLine1')} <br />
               <span className="bg-linear-to-r from-primary via-violet-400 to-indigo-400 bg-clip-text text-transparent">{t('titleLine2')}</span>

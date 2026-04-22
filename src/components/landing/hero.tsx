@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Button,
-  Badge,
+  CustomBadge,
   Typography,
   Card,
   CardContent,
@@ -52,15 +52,9 @@ const Hero = () => {
         <Flex direction="col" align="center" gap={12} className="lg:flex-row lg:gap-24">
           {/* Text Content */}
           <div className="relative z-20 lg:w-1/2 ltr:text-left rtl:text-right">
-            <Badge className="reveal group mb-8 cursor-default rounded-full border-white/40 bg-white/60 px-4 py-2 backdrop-blur-md transition-all hover:shadow-md">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary transition-colors group-hover:bg-primary"></span>
-              </span>
-              <span className="text-xs font-bold tracking-wide text-foreground transition-colors group-hover:text-primary">
-                {t('badge')}
-              </span>
-            </Badge>
+            <CustomBadge>
+              {t('badge')}
+            </CustomBadge>
 
             <Typography as="h1" variant="h1" className="reveal delay-100 mb-8 text-balance text-5xl font-black leading-[1.15] tracking-tighter drop-  sm:text-6xl md:text-7xl md:leading-[1.1] lg:text-8xl">
               {t('titleLine1')} <br />
@@ -189,7 +183,7 @@ const Hero = () => {
           </div>
         </Flex>
       </Container>
-    </section>
+    </section >
   );
 };
 

@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
-  Badge,
+  CustomBadge,
   Typography,
   Separator,
   Grid,
@@ -91,9 +91,9 @@ const WhyUs = () => {
       <Container size={"2xl"} className="px-6">
         <Flex direction="col" justify="between" gap={8} className="mb-20 items-end md:flex-row">
           <div className="reveal max-w-2xl">
-            <Badge variant="secondary" className="mb-4 rounded-none border-0 bg-transparent px-0 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+            <CustomBadge className="mb-4">
               {t('badge')}
-            </Badge>
+            </CustomBadge>
             <Typography variant="h1" className="text-4xl font-black leading-[1.1] tracking-tight md:text-6xl">
               {t('titleLine1')} <br />
               <span className="text-muted-foreground">{t('titleLine2')}</span>

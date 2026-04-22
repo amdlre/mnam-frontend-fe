@@ -10,5 +10,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function HomePage() {
+  // TODO: Remove this - testing error page
+  // throw new Error('Test error page');
   return <LandingPage />;
 }

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import {
   Button,
-  Badge,
+  CustomBadge,
   Typography,
   Grid,
   Container,
@@ -28,9 +28,9 @@ const HowItWorks = ({ onOpenTerms }: HowItWorksProps) => {
     <div className="relative overflow-hidden bg-card py-32" id="how">
       <Container size={"2xl"} className="relative z-10 px-6">
         <Stack align="center" gap={6} className="reveal mx-auto mb-24 max-w-2xl text-center">
-          <Badge variant="secondary" className="rounded-none border-0 bg-transparent px-0 text-xs font-bold uppercase tracking-widest text-primary">
+          <CustomBadge>
             {t('badge')}
-          </Badge>
+          </CustomBadge>
           <Typography variant="h2" className="text-4xl font-black md:text-5xl">{t('title')}</Typography>
           <Typography variant="lead" className="leading-relaxed">
             {t('subtitle')}

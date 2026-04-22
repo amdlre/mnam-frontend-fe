@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import {
   Button,
-  Badge,
+  CustomBadge,
   Typography,
   Flex,
   Container,
@@ -47,9 +47,9 @@ const ForGuests = () => {
         <Flex direction="col" align="center" gap={12} className="lg:flex-row lg:gap-16">
           {/* Text Content */}
           <div className="w-full lg:w-5/12">
-            <Badge variant="secondary" className="mb-4 rounded-none border-0 bg-transparent px-0 text-xs font-bold uppercase tracking-widest text-primary">
+            <CustomBadge className="mb-4">
               {t('badge')}
-            </Badge>
+            </CustomBadge>
             <Typography variant="h2" className="mb-6 text-3xl font-black leading-tight md:text-4xl lg:text-5xl">
               {t('titleLine1')} <br />
               <span className="text-primary">{t('titleLine2')}</span>

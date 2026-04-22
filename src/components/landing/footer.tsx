@@ -337,10 +337,10 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
 
         {/* Scroll to Top Button */}
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
           onClick={handleLogoClick}
-          className="group fixed bottom-24 left-6 z-50 h-12 w-12 rounded-xl border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30"
+          className="group fixed bottom-24 left-6 z-50 h-12 w-12"
           aria-label="Scroll to top"
         >
           <svg className="h-5 w-5 transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
