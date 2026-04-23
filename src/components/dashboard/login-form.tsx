@@ -38,7 +38,6 @@ export function DashboardLoginForm() {
       formData.set('password', data.password);
       console.log(formData)
       const result = await dashboardLoginAction(formData);
-      console.log(result)
       if (!result.success) {
         setSubmitError(tErrors(result.messageKey || 'loginFailed'));
         return;

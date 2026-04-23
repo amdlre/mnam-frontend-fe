@@ -1,5 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
+
 interface ComingSoonProps {
   title: string;
   subtitle?: string;
@@ -10,12 +12,7 @@ interface ComingSoonProps {
 export function ComingSoon({ title, subtitle, body, icon: Icon }: ComingSoonProps) {
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-neutral-dashboard-text text-2xl font-bold">{title}</h1>
-        {subtitle ? (
-          <p className="text-neutral-dashboard-muted mt-1 text-sm">{subtitle}</p>
-        ) : null}
-      </header>
+      <HeaderInfo title={title} subtitle={subtitle} />
 
       <div className="bg-neutral-dashboard-card border-neutral-dashboard-border flex flex-col items-center justify-center rounded-lg border p-12 text-center shadow-sm">
         <div className="bg-dashboard-primary-50 text-dashboard-primary-700 mb-4 flex h-16 w-16 items-center justify-center rounded-full">

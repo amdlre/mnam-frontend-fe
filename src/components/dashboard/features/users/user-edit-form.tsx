@@ -4,11 +4,12 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { ChevronRight, Loader2, ShieldCheck, UserCircle } from 'lucide-react';
+import { Loader2, ShieldCheck, UserCircle } from 'lucide-react';
 
-import { Link, useRouter } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { useConfirm } from '@/components/shared/confirm-modal';
 import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { toggleUserActiveAction, updateUserAction } from '@/actions/dashboard/users';
 import {
   userEditSchema,
@@ -103,45 +104,37 @@ export function UserEditForm({ user, roles }: Props) {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/dashboard/users"
-            className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
-            aria-label={t('back')}
-          >
-            <ChevronRight className="h-5 w-5 rtl:rotate-180" />
-          </Link>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-neutral-dashboard-text text-xl font-bold">
-                {user.firstName} {user.lastName}
-              </h1>
-              <span
-                className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                  isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
-                }`}
-              >
-                {isActive ? t('active') : t('inactive')}
-              </span>
-            </div>
-            <p className="text-neutral-dashboard-muted font-mono text-xs">@{user.username}</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={onToggleActive}
-          disabled={isToggling}
-          className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors disabled:opacity-60 ${
-            isActive
-              ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
-              : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-          }`}
-        >
-          {isToggling ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          <span>{isActive ? t('deactivate') : t('activate')}</span>
-        </button>
-      </header>
+      <HeaderInfo
+        size="md"
+        title={`${user.firstName} ${user.lastName}`}
+        subtitle={`@${user.username}`}
+        backHref="/dashboard/users"
+        backLabel={t('back')}
+        actions={
+          <>
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+              }`}
+            >
+              {isActive ? t('active') : t('inactive')}
+            </span>
+            <button
+              type="button"
+              onClick={onToggleActive}
+              disabled={isToggling}
+              className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors disabled:opacity-60 ${
+                isActive
+                  ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
+                  : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+              }`}
+            >
+              {isToggling ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              <span>{isActive ? t('deactivate') : t('activate')}</span>
+            </button>
+          </>
+        }
+      />
 
       <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('saveChanges')}>
         <WizardStep id="personal">

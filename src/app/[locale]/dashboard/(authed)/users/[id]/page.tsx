@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { ChevronRight, Mail, Pencil, Phone, ShieldCheck, User } from 'lucide-react';
+import { Mail, Pencil, Phone, ShieldCheck, User } from 'lucide-react';
 
 import { Link } from '@/i18n/navigation';
 import { fetchEmployeesStatus, fetchUserById } from '@/lib/api/dashboard/users';
 import { USER_ROLE_BADGE_STYLES } from '@/components/dashboard/features/users/role-badge';
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 
 interface Props {
   params: Promise<{ locale: string; id: string }>;
@@ -41,30 +42,24 @@ export default async function DashboardUserDetailPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/dashboard/users"
-            className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
-            aria-label={t('back')}
-          >
-            <ChevronRight className="h-5 w-5 rtl:rotate-180" />
-          </Link>
-          <div>
-            <h1 className="text-neutral-dashboard-text text-xl font-bold">{t('title')}</h1>
-            <p className="text-neutral-dashboard-muted text-xs">{t('subtitle')}</p>
-          </div>
-        </div>
-        {!user.isSystemOwner ? (
-          <Link
-            href={`/dashboard/users/${user.id}/edit`}
-            className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
-          >
-            <Pencil className="h-4 w-4" />
-            <span>{t('edit')}</span>
-          </Link>
-        ) : null}
-      </header>
+      <HeaderInfo
+        size="md"
+        title={t('title')}
+        subtitle={t('subtitle')}
+        backHref="/dashboard/users"
+        backLabel={t('back')}
+        actions={
+          !user.isSystemOwner ? (
+            <Link
+              href={`/dashboard/users/${user.id}/edit`}
+              className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
+            >
+              <Pencil className="h-4 w-4" />
+              <span>{t('edit')}</span>
+            </Link>
+          ) : undefined
+        }
+      />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <section className="md:col-span-5">

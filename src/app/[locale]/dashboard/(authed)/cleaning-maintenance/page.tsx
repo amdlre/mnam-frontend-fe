@@ -14,6 +14,7 @@ import {
   STATUS_BADGE_STYLES,
   TYPE_BADGE_STYLES,
 } from '@/components/dashboard/features/cleaning/badges';
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 
 import type {
   CleaningMaintenanceRequest,
@@ -69,10 +70,7 @@ export default async function DashboardCleaningMaintenancePage({
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-neutral-dashboard-text text-2xl font-bold">{t('title')}</h1>
-        <p className="text-neutral-dashboard-muted mt-1 text-sm">{t('subtitle')}</p>
-      </header>
+      <HeaderInfo title={t('title')} subtitle={t('subtitle')} />
 
       <section className="grid grid-cols-2 gap-3 md:grid-cols-3">
         <StatCard label={t('stats.total')} value={stats.total} tone="default" />

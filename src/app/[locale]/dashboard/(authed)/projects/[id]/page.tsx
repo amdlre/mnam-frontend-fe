@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { ChevronRight, FileSignature, Folder, MapPin } from 'lucide-react';
+import { FileSignature, Folder, MapPin } from 'lucide-react';
 
-import { Link } from '@/i18n/navigation';
 import { fetchProjectById } from '@/lib/api/dashboard/entities';
 import { ProjectDeleteButton } from '@/components/dashboard/features/projects/delete-button';
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -35,28 +35,22 @@ export default async function DashboardProjectDetailPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/dashboard/projects"
-            className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
-          >
-            <ChevronRight className="h-5 w-5 rtl:rotate-180" />
-          </Link>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-neutral-dashboard-text text-xl font-bold">{project.name}</h1>
-              {project.contractStatus ? (
-                <span className={`rounded border px-2 py-0.5 text-[10px] ${statusClass}`}>
-                  {project.contractStatus}
-                </span>
-              ) : null}
-            </div>
-            <p className="text-neutral-dashboard-muted text-xs">{project.ownerName}</p>
-          </div>
-        </div>
-        <ProjectDeleteButton projectId={project.id} projectName={project.name} />
-      </header>
+      <HeaderInfo
+        size="md"
+        title={project.name}
+        subtitle={project.ownerName}
+        backHref="/dashboard/projects"
+        actions={
+          <>
+            {project.contractStatus ? (
+              <span className={`rounded border px-2 py-0.5 text-[10px] ${statusClass}`}>
+                {project.contractStatus}
+              </span>
+            ) : null}
+            <ProjectDeleteButton projectId={project.id} projectName={project.name} />
+          </>
+        }
+      />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <section className="md:col-span-5 space-y-6">

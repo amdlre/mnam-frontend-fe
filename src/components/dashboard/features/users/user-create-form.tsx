@@ -3,10 +3,11 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { ChevronRight, LockKeyhole, UserCircle } from 'lucide-react';
+import { LockKeyhole, UserCircle } from 'lucide-react';
 
-import { Link, useRouter } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createUserAction } from '@/actions/dashboard/users';
 import {
   userCreateSchema,
@@ -74,19 +75,13 @@ export function UserCreateForm({ roles }: Props) {
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center gap-3">
-        <Link
-          href="/dashboard/users"
-          className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
-          aria-label={t('back')}
-        >
-          <ChevronRight className="h-5 w-5 ltr:rotate-180" />
-        </Link>
-        <div>
-          <h1 className="text-neutral-dashboard-text text-xl font-bold">{t('createTitle')}</h1>
-          <p className="text-neutral-dashboard-muted text-xs">{t('createSubtitle')}</p>
-        </div>
-      </header>
+      <HeaderInfo
+        size="md"
+        title={t('createTitle')}
+        subtitle={t('createSubtitle')}
+        backHref="/dashboard/users"
+        backLabel={t('back')}
+      />
 
       <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('createSubmit')}>
         <WizardStep id="account">

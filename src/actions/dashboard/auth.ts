@@ -48,7 +48,6 @@ export async function dashboardLoginAction(formData: FormData): Promise<Dashboar
       cache: 'no-store',
       credentials: 'include',
     });
-    console.log(res);
   } catch {
     return { success: false, messageKey: 'networkError' };
   }

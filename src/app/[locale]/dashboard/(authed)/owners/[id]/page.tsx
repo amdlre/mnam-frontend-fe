@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { Briefcase, ChevronRight, Mail, Phone } from 'lucide-react';
+import { Briefcase, Mail, Phone } from 'lucide-react';
 
-import { Link } from '@/i18n/navigation';
 import { fetchOwnerById, fetchOwnerProjects } from '@/lib/api/dashboard/entities';
 import { OwnerDeleteButton } from '@/components/dashboard/features/owners/delete-button';
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -28,21 +28,13 @@ export default async function DashboardOwnerDetailPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/dashboard/owners"
-            className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
-          >
-            <ChevronRight className="h-5 w-5 rtl:rotate-180" />
-          </Link>
-          <div>
-            <h1 className="text-neutral-dashboard-text text-xl font-bold">{t('title')}</h1>
-            <p className="text-neutral-dashboard-muted text-xs">{t('subtitle')}</p>
-          </div>
-        </div>
-        <OwnerDeleteButton ownerId={owner.id} ownerName={owner.ownerName} />
-      </header>
+      <HeaderInfo
+        size="md"
+        title={t('title')}
+        subtitle={t('subtitle')}
+        backHref="/dashboard/owners"
+        actions={<OwnerDeleteButton ownerId={owner.id} ownerName={owner.ownerName} />}
+      />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <section className="md:col-span-5">

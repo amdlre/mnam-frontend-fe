@@ -3,11 +3,12 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { ChevronRight, FileSignature, Info, MapPin } from 'lucide-react';
+import { FileSignature, Info, MapPin } from 'lucide-react';
 
-import { Link, useRouter } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
 import { FormCard, FormField, FormInputs } from '@/components/dashboard/features/forms/form-primitives';
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createProjectAction } from '@/actions/dashboard/entities';
 import {
   projectCreateSchema,
@@ -83,18 +84,12 @@ export function ProjectCreateForm({ owners }: Props) {
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center gap-3">
-        <Link
-          href="/dashboard/projects"
-          className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
-        >
-          <ChevronRight className="h-5 w-5 rtl:rotate-180" />
-        </Link>
-        <div>
-          <h1 className="text-neutral-dashboard-text text-xl font-bold">{t('title')}</h1>
-          <p className="text-neutral-dashboard-muted text-xs">{t('subtitle')}</p>
-        </div>
-      </header>
+      <HeaderInfo
+        size="md"
+        title={t('title')}
+        subtitle={t('subtitle')}
+        backHref="/dashboard/projects"
+      />
 
       <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('submit')}>
         <WizardStep id="basic">

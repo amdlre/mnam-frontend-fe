@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { Building2, Sparkles } from 'lucide-react';
 
 import { Link } from '@/i18n/navigation';
-
+import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { fetchDashboardSummary } from '@/lib/api/dashboard/summary';
 import {
   fetchCleaningRequests,
@@ -65,10 +65,7 @@ export default async function DashboardHomePage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-neutral-dashboard-text text-2xl font-bold">{t('title')}</h1>
-        <p className="text-neutral-dashboard-muted mt-1 text-sm">{t('subtitle')}</p>
-      </header>
+      <HeaderInfo title={t('title')} subtitle={t('subtitle')} />
 
       <section className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
         <StatCard
