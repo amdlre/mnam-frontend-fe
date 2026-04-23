@@ -329,8 +329,21 @@
     },
     "home": {
       "title": "Dashboard",
-      "subtitle": "A quick look at your business today",
+      "subtitle": "An overview of daily operations and performance.",
       "summaryUnavailable": "Summary is currently unavailable",
+      "kpi": {
+        "occupancy": "Occupancy rate",
+        "occupancySub": "{booked} of {total} units",
+        "cleaning": "Units under cleaning",
+        "cleaningSub": "Action required",
+        "maintenance": "Units under maintenance",
+        "dailyTarget": "Daily target",
+        "dailyTargetSub": "Employee achievement"
+      },
+      "cleaning": {
+        "count": "{count} requests",
+        "viewAll": "View all"
+      },
       "kpis": {
         "revenue": "Current month revenue",
         "revenueSub": "Earned so far",
@@ -347,6 +360,10 @@
         "pending": "Awaiting check-in",
         "count": "{count, plural, one {# booking} other {# bookings}}",
         "none": "None"
+      },
+      "upcoming": {
+        "title": "Upcoming bookings",
+        "empty": "No upcoming bookings"
       }
     },
     "profile": {
@@ -362,6 +379,197 @@
       "title": "Account Settings",
       "subtitle": "Your personal preferences",
       "comingSoon": "Coming soon..."
+    },
+    "stub": {
+      "subtitle": "This page is under construction",
+      "body": "Coming soon — we're working on this page"
+    },
+    "owners": {
+      "title": "Owners",
+      "subtitle": "Property owners and their information.",
+      "add": "Add owner",
+      "empty": "No owners yet",
+      "cols": {
+        "name": "Name",
+        "phone": "Phone",
+        "email": "Email",
+        "projects": "Projects",
+        "units": "Units",
+        "actions": "Actions",
+        "view": "View"
+      }
+    },
+    "projects": {
+      "title": "Projects",
+      "subtitle": "Projects, contracts, and their units.",
+      "add": "Add project",
+      "empty": "No projects yet",
+      "city": "City",
+      "district": "District",
+      "units": "Units",
+      "commission": "Commission"
+    },
+    "units": {
+      "title": "Units",
+      "subtitle": "Units, their status and pricing.",
+      "add": "Add unit",
+      "empty": "No units yet",
+      "cols": {
+        "unit": "Unit",
+        "project": "Project",
+        "type": "Type",
+        "rooms": "Rooms",
+        "priceWeekday": "Weekday price",
+        "priceWeekend": "Weekend price",
+        "status": "Status",
+        "actions": "Actions",
+        "view": "View"
+      }
+    },
+    "bookings": {
+      "title": "Bookings",
+      "subtitle": "{total} bookings in the system",
+      "add": "New booking",
+      "empty": "No bookings yet",
+      "cols": {
+        "guest": "Guest",
+        "unit": "Unit",
+        "project": "Project",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out",
+        "price": "Price",
+        "status": "Status",
+        "actions": "Actions",
+        "view": "View"
+      },
+      "pager": {
+        "prev": "Previous",
+        "next": "Next",
+        "page": "Page {page} of {total}"
+      }
+    },
+    "userForm": {
+      "back": "Back",
+      "createTitle": "New member",
+      "createSubtitle": "Add a new member to the team",
+      "createSubmit": "Create account",
+      "createFailed": "Failed to create the user",
+      "updateFailed": "Failed to update the user",
+      "saveChanges": "Save changes",
+      "personalSection": "Personal information",
+      "accountSection": "Account details",
+      "accessSection": "Access & permissions",
+      "firstName": "First name",
+      "firstNamePlaceholder": "e.g. Ahmed",
+      "lastName": "Last name",
+      "lastNamePlaceholder": "e.g. Mohammed",
+      "phone": "Phone number",
+      "username": "Username",
+      "usernameHint": "Used for sign-in",
+      "email": "Email",
+      "password": "Password",
+      "role": "Role",
+      "active": "Active",
+      "inactive": "Disabled",
+      "activate": "Activate account",
+      "deactivate": "Deactivate account",
+      "confirmActivate": "Are you sure you want to activate this user?",
+      "confirmDeactivate": "Are you sure you want to deactivate this user?",
+      "errors": {
+        "firstNameRequired": "First name is required",
+        "usernameRequired": "Username is required",
+        "usernameTooShort": "Username must be at least 3 characters",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email address",
+        "passwordRequired": "Password is required",
+        "passwordTooShort": "Password must be at least 6 characters",
+        "roleRequired": "Role is required"
+      }
+    },
+    "userDetail": {
+      "title": "Member profile",
+      "subtitle": "Account and activity information",
+      "back": "Back",
+      "edit": "Edit",
+      "active": "Active",
+      "inactive": "Disabled",
+      "contactInfo": "Contact information",
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "lastLogin": "Last sign-in",
+      "onlineStatus": "Status",
+      "online": "Online now",
+      "offline": "Offline",
+      "todayWorked": "Worked today",
+      "lastActivity": "Last activity"
+    },
+    "users": {
+      "title": "Team Management",
+      "subtitle": "Manage permissions, employees and performance",
+      "addMember": "Add member",
+      "searchPlaceholder": "Search by name...",
+      "allRoles": "All roles",
+      "allStatuses": "All statuses",
+      "roleAdmin": "Administrator",
+      "roleCustomersAgent": "Customers agent",
+      "roleOwnersAgent": "Owners agent",
+      "active": "Active",
+      "inactive": "Inactive",
+      "grid": "Grid",
+      "table": "Table",
+      "empty": "No members yet",
+      "file": "Profile",
+      "edit": "Edit",
+      "delete": "Delete",
+      "protectedAccount": "Protected account",
+      "todayDuration": "Today",
+      "hoursUnit": "h",
+      "deleteConfirm": "Are you sure you want to delete member \"{name}\"?",
+      "deleteFailed": "Failed to delete the member",
+      "stats": {
+        "total": "Total members",
+        "active": "Active",
+        "onlineNow": "Online now",
+        "onlineNowSub": "Currently connected",
+        "todayHours": "Today's hours",
+        "todayHoursSub": "Total work"
+      },
+      "cols": {
+        "user": "Member",
+        "username": "Username",
+        "role": "Role",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    },
+    "cleaning": {
+      "title": "Cleaning & Maintenance Requests",
+      "subtitle": "Manage cleaning and maintenance requests for units.",
+      "quickCreate": "Create urgent request",
+      "unit": "Unit",
+      "unitPlaceholder": "Select a unit...",
+      "type": "Type",
+      "status": "Status",
+      "all": "All",
+      "submit": "Create request",
+      "empty": "No requests currently",
+      "alreadyActive": "has an active request",
+      "unitRequired": "Please select a unit",
+      "createFailed": "Failed to create the request",
+      "stats": {
+        "total": "Total requests",
+        "cleaning": "Needs cleaning",
+        "maintenance": "Maintenance"
+      },
+      "cols": {
+        "unit": "Unit name",
+        "project": "Project",
+        "type": "Type",
+        "date": "Date",
+        "status": "Status",
+        "change": "Change status"
+      }
     }
   }
 }

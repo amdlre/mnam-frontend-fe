@@ -328,9 +328,22 @@
       "sessionExpired": "جلستك انتهت، يرجى تسجيل الدخول مرة أخرى"
     },
     "home": {
-      "title": "لوحة التحكم",
-      "subtitle": "نظرة سريعة على أداء أعمالك اليوم",
+      "title": "لوحة المعلومات",
+      "subtitle": "نظرة عامة على العمليات والأداء اليومي.",
       "summaryUnavailable": "تعذر تحميل الملخص حالياً",
+      "kpi": {
+        "occupancy": "نسبة الإشغال",
+        "occupancySub": "{booked} من {total} وحدة",
+        "cleaning": "وحدات تحت التنظيف",
+        "cleaningSub": "تتطلب إجراء",
+        "maintenance": "وحدات تحت الصيانة",
+        "dailyTarget": "الهدف اليومي",
+        "dailyTargetSub": "إنجاز الموظف"
+      },
+      "cleaning": {
+        "count": "{count} طلب",
+        "viewAll": "عرض الكل"
+      },
       "kpis": {
         "revenue": "إيرادات الشهر الحالي",
         "revenueSub": "الدخل المتحقق حتى الآن",
@@ -347,6 +360,10 @@
         "pending": "بانتظار التسجيل",
         "count": "{count, plural, zero {# حجز} one {حجز واحد} two {حجزان} few {# حجوزات} many {# حجزاً} other {# حجز}}",
         "none": "لا يوجد"
+      },
+      "upcoming": {
+        "title": "الحجوزات القادمة",
+        "empty": "لا يوجد حجوزات قادمة"
       }
     },
     "profile": {
@@ -362,6 +379,197 @@
       "title": "إعدادات الحساب",
       "subtitle": "تفضيلاتك الشخصية",
       "comingSoon": "قريباً..."
+    },
+    "stub": {
+      "subtitle": "هذه الصفحة قيد التطوير",
+      "body": "قريباً — نعمل على هذه الصفحة الآن"
+    },
+    "owners": {
+      "title": "الملاك",
+      "subtitle": "قائمة ملاك العقارات وإدارة معلوماتهم.",
+      "add": "إضافة مالك",
+      "empty": "لا يوجد ملاك بعد",
+      "cols": {
+        "name": "الاسم",
+        "phone": "الجوال",
+        "email": "البريد",
+        "projects": "المشاريع",
+        "units": "الوحدات",
+        "actions": "إجراءات",
+        "view": "عرض"
+      }
+    },
+    "projects": {
+      "title": "المشاريع",
+      "subtitle": "قائمة المشاريع والعقود والوحدات التابعة لها.",
+      "add": "إضافة مشروع",
+      "empty": "لا يوجد مشاريع بعد",
+      "city": "المدينة",
+      "district": "الحي",
+      "units": "الوحدات",
+      "commission": "العمولة"
+    },
+    "units": {
+      "title": "الوحدات",
+      "subtitle": "قائمة الوحدات وحالاتها وأسعارها.",
+      "add": "إضافة وحدة",
+      "empty": "لا يوجد وحدات بعد",
+      "cols": {
+        "unit": "الوحدة",
+        "project": "المشروع",
+        "type": "النوع",
+        "rooms": "الغرف",
+        "priceWeekday": "سعر أيام الأسبوع",
+        "priceWeekend": "سعر نهاية الأسبوع",
+        "status": "الحالة",
+        "actions": "إجراءات",
+        "view": "عرض"
+      }
+    },
+    "bookings": {
+      "title": "الحجوزات",
+      "subtitle": "{total} حجز مسجل في النظام",
+      "add": "حجز جديد",
+      "empty": "لا توجد حجوزات بعد",
+      "cols": {
+        "guest": "الضيف",
+        "unit": "الوحدة",
+        "project": "المشروع",
+        "checkIn": "تاريخ الوصول",
+        "checkOut": "تاريخ المغادرة",
+        "price": "السعر",
+        "status": "الحالة",
+        "actions": "إجراءات",
+        "view": "عرض"
+      },
+      "pager": {
+        "prev": "السابق",
+        "next": "التالي",
+        "page": "صفحة {page} من {total}"
+      }
+    },
+    "userForm": {
+      "back": "رجوع",
+      "createTitle": "مستخدم جديد",
+      "createSubtitle": "إضافة عضو جديد إلى فريق العمل",
+      "createSubmit": "إنشاء الحساب",
+      "createFailed": "فشل إنشاء المستخدم",
+      "updateFailed": "فشل تحديث البيانات",
+      "saveChanges": "حفظ التغييرات",
+      "personalSection": "البيانات الشخصية",
+      "accountSection": "بيانات الحساب",
+      "accessSection": "الوصول والصلاحيات",
+      "firstName": "الاسم الأول",
+      "firstNamePlaceholder": "مثال: أحمد",
+      "lastName": "الاسم الأخير",
+      "lastNamePlaceholder": "مثال: محمد",
+      "phone": "رقم الجوال",
+      "username": "اسم المستخدم",
+      "usernameHint": "يستخدم لتسجيل الدخول",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "role": "الدور الوظيفي",
+      "active": "نشط",
+      "inactive": "معطل",
+      "activate": "تفعيل الحساب",
+      "deactivate": "تعطيل الحساب",
+      "confirmActivate": "هل أنت متأكد من تفعيل هذا المستخدم؟",
+      "confirmDeactivate": "هل أنت متأكد من تعطيل هذا المستخدم؟",
+      "errors": {
+        "firstNameRequired": "الاسم الأول مطلوب",
+        "usernameRequired": "اسم المستخدم مطلوب",
+        "usernameTooShort": "اسم المستخدم قصير جداً (3 أحرف على الأقل)",
+        "emailRequired": "البريد الإلكتروني مطلوب",
+        "emailInvalid": "البريد الإلكتروني غير صالح",
+        "passwordRequired": "كلمة المرور مطلوبة",
+        "passwordTooShort": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+        "roleRequired": "الدور الوظيفي مطلوب"
+      }
+    },
+    "userDetail": {
+      "title": "ملف الموظف",
+      "subtitle": "معلومات الحساب والنشاط",
+      "back": "رجوع",
+      "edit": "تعديل",
+      "active": "نشط",
+      "inactive": "معطل",
+      "contactInfo": "معلومات التواصل",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الجوال",
+      "lastLogin": "آخر تسجيل دخول",
+      "onlineStatus": "الحالة",
+      "online": "متصل الآن",
+      "offline": "غير متصل",
+      "todayWorked": "مدة العمل اليوم",
+      "lastActivity": "آخر نشاط"
+    },
+    "users": {
+      "title": "إدارة فريق العمل",
+      "subtitle": "إدارة الصلاحيات والموظفين ومتابعة الأداء",
+      "addMember": "إضافة عضو",
+      "searchPlaceholder": "بحث بالاسم...",
+      "allRoles": "كل الأدوار",
+      "allStatuses": "كل الحالات",
+      "roleAdmin": "مدير نظام",
+      "roleCustomersAgent": "وكيل عملاء",
+      "roleOwnersAgent": "وكيل ملاك",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "grid": "شبكة",
+      "table": "جدول",
+      "empty": "لا يوجد أعضاء",
+      "file": "الملف",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "protectedAccount": "حساب محمي",
+      "todayDuration": "اليوم",
+      "hoursUnit": "س",
+      "deleteConfirm": "هل أنت متأكد من حذف الموظف \"{name}\"؟",
+      "deleteFailed": "فشل في حذف الموظف",
+      "stats": {
+        "total": "إجمالي الأعضاء",
+        "active": "نشطين",
+        "onlineNow": "متصلين الآن",
+        "onlineNowSub": "متصل حالياً",
+        "todayHours": "ساعات اليوم",
+        "todayHoursSub": "إجمالي العمل"
+      },
+      "cols": {
+        "user": "المستخدم",
+        "username": "اسم المستخدم",
+        "role": "الدور",
+        "status": "الحالة",
+        "actions": "إجراءات"
+      }
+    },
+    "cleaning": {
+      "title": "طلبات النظافة والصيانة",
+      "subtitle": "إدارة طلبات التنظيف والصيانة للوحدات.",
+      "quickCreate": "إنشاء طلب عاجل",
+      "unit": "الوحدة",
+      "unitPlaceholder": "اختر الوحدة...",
+      "type": "النوع",
+      "status": "الحالة",
+      "all": "الكل",
+      "submit": "إنشاء الطلب",
+      "empty": "لا توجد طلبات حالياً",
+      "alreadyActive": "يوجد طلب نشط",
+      "unitRequired": "يرجى اختيار الوحدة",
+      "createFailed": "فشل إنشاء الطلب",
+      "stats": {
+        "total": "إجمالي الطلبات",
+        "cleaning": "تحتاج تنظيف",
+        "maintenance": "صيانة"
+      },
+      "cols": {
+        "unit": "اسم الوحدة",
+        "project": "المشروع",
+        "type": "النوع",
+        "date": "التاريخ",
+        "status": "الحالة",
+        "change": "تغيير الحالة"
+      }
     }
   }
 }
