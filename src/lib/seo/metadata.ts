@@ -15,10 +15,34 @@ const defaultMeta = {
   ar: {
     title: 'منام',
     description: 'منام - تطبيق متكامل',
+    keywords: [
+      'منام',
+      'حجز شاليهات',
+      'استراحات',
+      'حجز استراحات',
+      'شاليهات السعودية',
+      'إيجار يومي',
+      'حجز فوري',
+      'استراحات الرياض',
+      'شاليهات جدة',
+      'تأجير استراحات',
+    ],
   },
   en: {
     title: 'Mnam',
     description: 'Mnam - Full-featured application',
+    keywords: [
+      'mnam',
+      'chalets booking',
+      'resorts',
+      'book resorts',
+      'saudi chalets',
+      'daily rental',
+      'instant booking',
+      'riyadh resorts',
+      'jeddah chalets',
+      'resort rental',
+    ],
   },
 };
 
@@ -39,7 +63,7 @@ export function generateSiteMetadata(locale: string, options?: MetadataOptions):
   return {
     title,
     description,
-    keywords: options?.keywords,
+    keywords: options?.keywords || defaultMeta[lang]?.keywords,
 
     metadataBase: new URL(siteUrl),
 

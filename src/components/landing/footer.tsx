@@ -340,13 +340,15 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
           variant="default"
           size="icon"
           onClick={handleLogoClick}
-          className="group fixed bottom-24 left-6 z-50 h-12 w-12"
+          className="group fixed bottom-24 left-8.5 z-50 h-12 w-12"
           aria-label="Scroll to top"
-        >
-          <svg className="h-5 w-5 transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-          </svg>
-        </Button>
+          rounded={"full"}
+          leftIcon={
+            <svg className="h-5 w-5 transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+          }
+        />
       </div>
     </footer>
   );
