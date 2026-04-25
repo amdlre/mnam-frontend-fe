@@ -88,4 +88,20 @@ export const DASHBOARD_ENDPOINTS = {
   employeePerformance: {
     employeesStatus: '/api/employee-performance/employees-status',
   },
+  integrations: {
+    connections: '/api/integrations/connections',
+    deleteConnection: (id: string) => `/api/integrations/connections/${id}`,
+    syncConnection: (id: string) => `/api/integrations/connections/${id}/sync`,
+    mappings: '/api/integrations/mappings',
+    deleteMapping: (id: string) => `/api/integrations/mappings/${id}`,
+    alerts: '/api/integrations/alerts',
+    acknowledgeAlert: (id: string) => `/api/integrations/alerts/${id}/acknowledge`,
+    resolveAlert: (id: string) => `/api/integrations/alerts/${id}/resolve`,
+  },
+  channex: {
+    properties: '/api/channex/properties',
+    roomTypes: (connectionId: string) => `/api/channex/connections/${connectionId}/room-types`,
+    ratePlans: (connectionId: string, roomTypeId: string) =>
+      `/api/channex/connections/${connectionId}/room-types/${roomTypeId}/rate-plans`,
+  },
 } as const;
