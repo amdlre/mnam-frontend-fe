@@ -404,6 +404,27 @@
         "view": "عرض"
       }
     },
+    "ownerForm": {
+      "title": "مالك جديد",
+      "subtitle": "أضف مالكاً جديداً إلى النظام",
+      "submit": "حفظ المالك",
+      "createFailed": "فشل إنشاء المالك",
+      "steps": {
+        "basic": "البيانات الأساسية",
+        "contact": "معلومات الاتصال"
+      },
+      "name": "اسم المالك",
+      "namePlaceholder": "الاسم الكامل أو اسم الشركة",
+      "note": "ملاحظات",
+      "notePlaceholder": "أي ملاحظات إضافية...",
+      "phone": "رقم الجوال",
+      "email": "البريد الإلكتروني (PayPal)",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "phoneInvalid": "رقم الجوال يجب أن يتكون من 10 أرقام",
+        "emailInvalid": "البريد الإلكتروني غير صالح"
+      }
+    },
     "ownerDetail": {
       "title": "ملف المالك",
       "subtitle": "معلومات المالك والمشاريع المسجلة باسمه",
@@ -685,6 +706,138 @@
         "status": "الحالة",
         "actions": "إجراءات"
       }
+    },
+    "financials": {
+      "title": "التقارير المالية",
+      "subtitle": "ملخص الأداء المالي والتشغيلي.",
+      "tabs": {
+        "daily": "يومي",
+        "weekly": "أسبوعي",
+        "monthly": "شهري"
+      },
+      "stats": {
+        "income": "الدخل / الإيرادات",
+        "occupancy": "نسبة الإشغال (%)",
+        "occupiedUnits": "الوحدات المشغولة",
+        "nights": "ليالي المبيعات",
+        "cancellations": "الإلغاءات"
+      },
+      "currency": "ر.س",
+      "exportTitle": "تصدير التقارير",
+      "exportDaily": "تقرير يومي",
+      "exportWeekly": "تقرير أسبوعي",
+      "exportMonthly": "تقرير شهري",
+      "exportFormat": "PDF",
+      "comingSoon": "البيانات الفعلية ستظهر فور ربط واجهة التقارير المالية بالخادم."
+    },
+    "audit": {
+      "title": "سجل الأنشطة",
+      "subtitle": "تتبع عمليات النظام والمراجعة.",
+      "tabs": {
+        "logs": "سجل الأنشطة",
+        "deleted": "السجلات المحذوفة"
+      },
+      "stats": {
+        "total": "إجمالي الأنشطة (7 أيام)",
+        "deleted": "سجلات محذوفة",
+        "deletedSub": "قابلة للاستعادة",
+        "types": "أنواع الأنشطة",
+        "users": "مستخدمون نشطون"
+      },
+      "search": "بحث في الأنشطة...",
+      "allActivities": "كل الأنشطة",
+      "allEntities": "كل الكيانات",
+      "cols": {
+        "time": "التوقيت",
+        "user": "المستخدم",
+        "activity": "النشاط",
+        "entity": "الكيان",
+        "details": "التفاصيل",
+        "deletedAt": "تاريخ الحذف",
+        "deletedBy": "حُذف بواسطة",
+        "name": "الاسم",
+        "action": "إجراء"
+      },
+      "restore": "استعادة",
+      "empty": "لا توجد أنشطة",
+      "emptyDeleted": "لا توجد سجلات محذوفة",
+      "comingSoon": "البيانات الفعلية ستظهر فور ربط نقطة /api/audit بالخادم."
+    },
+    "customerForm": {
+      "title": "عميل جديد",
+      "subtitle": "إضافة عميل يدوياً للنظام.",
+      "submit": "إضافة العميل",
+      "createFailed": "فشل إنشاء العميل",
+      "steps": {
+        "basic": "البيانات الأساسية",
+        "additional": "بيانات إضافية"
+      },
+      "name": "الاسم",
+      "namePlaceholder": "اسم العميل الكامل",
+      "phone": "رقم الجوال",
+      "email": "البريد الإلكتروني",
+      "gender": "الجنس",
+      "selectGender": "اختر الجنس...",
+      "male": "ذكر",
+      "female": "أنثى",
+      "notes": "ملاحظات",
+      "notesPlaceholder": "ملاحظات إضافية...",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "nameTooShort": "الاسم يجب أن يحتوي على حرفين على الأقل",
+        "phoneInvalid": "رقم الجوال غير صالح",
+        "emailInvalid": "البريد الإلكتروني غير صالح"
+      }
+    },
+    "customers": {
+      "title": "إدارة العملاء",
+      "subtitle": "عرض وإدارة بيانات العملاء — مزامنة تلقائية من الحجوزات.",
+      "add": "إضافة عميل",
+      "search": "بحث بالاسم، الجوال، البريد...",
+      "filters": {
+        "all": "كل العملاء",
+        "incomplete": "بيانات ناقصة",
+        "vip": "مميزين",
+        "new": "جدد",
+        "banned": "محظورين"
+      },
+      "stats": {
+        "total": "إجمالي العملاء",
+        "vip": "عملاء مميزين",
+        "vipSub": "زيارتين أو أكثر",
+        "incomplete": "بيانات ناقصة",
+        "incompleteSub": "تحتاج إكمال",
+        "revenue": "إجمالي الإيرادات"
+      },
+      "cols": {
+        "customer": "العميل",
+        "type": "النوع",
+        "bookings": "حجوزات/إيراد",
+        "profile": "حالة الملف",
+        "actions": "إجراء"
+      },
+      "incompleteBannerTitle": "بيانات ناقصة",
+      "incompleteBannerBody": "{count} عميل بحاجة لتحديث البيانات",
+      "incompleteBannerCta": "عرض العملاء",
+      "empty": "لا يوجد عملاء يطابقون البحث",
+      "comingSoon": "البيانات الفعلية ستظهر فور ربط نقطة /api/customers بالخادم."
+    },
+    "integrations": {
+      "title": "التكاملات",
+      "subtitle": "ربط الوحدات مع منصات الحجز عبر Channex.io.",
+      "alertsTitle": "تنبيهات التكاملات",
+      "alertsSubtitle": "آخر التنبيهات الواردة من خدمات التكامل.",
+      "alertTabs": {
+        "open": "مفتوحة",
+        "acknowledged": "قيد المعالجة",
+        "resolved": "محلولة",
+        "all": "الكل"
+      },
+      "alertEmpty": "لا توجد تنبيهات حالياً.",
+      "mappingsTitle": "ربط الوحدات بـ Channex",
+      "mappingsSubtitle": "اربط كل وحدة بمعرّف الفندق ومعرّف نوع الغرفة في Channex.io.",
+      "mappingsEmpty": "لم تتم إضافة أي ربط بعد.",
+      "comingSoon": "ربط Channex.io سيعمل فور إضافة نقاط /api/integrations و /api/channex بالخادم."
     },
     "cleaning": {
       "title": "طلبات النظافة والصيانة",

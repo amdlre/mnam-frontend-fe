@@ -404,6 +404,27 @@
         "view": "View"
       }
     },
+    "ownerForm": {
+      "title": "New owner",
+      "subtitle": "Add a new owner to the system",
+      "submit": "Save owner",
+      "createFailed": "Failed to create the owner",
+      "steps": {
+        "basic": "Basic info",
+        "contact": "Contact info"
+      },
+      "name": "Owner name",
+      "namePlaceholder": "Full name or company name",
+      "note": "Notes",
+      "notePlaceholder": "Any additional notes...",
+      "phone": "Phone number",
+      "email": "Email (PayPal)",
+      "errors": {
+        "required": "This field is required",
+        "phoneInvalid": "Phone number must be 10 digits",
+        "emailInvalid": "Invalid email address"
+      }
+    },
     "ownerDetail": {
       "title": "Owner profile",
       "subtitle": "Owner information and registered projects",
@@ -685,6 +706,138 @@
         "status": "Status",
         "actions": "Actions"
       }
+    },
+    "financials": {
+      "title": "Financial reports",
+      "subtitle": "Operational and financial performance summary.",
+      "tabs": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
+      "stats": {
+        "income": "Income / Revenue",
+        "occupancy": "Occupancy rate (%)",
+        "occupiedUnits": "Occupied units",
+        "nights": "Nights sold",
+        "cancellations": "Cancellations"
+      },
+      "currency": "SAR",
+      "exportTitle": "Export reports",
+      "exportDaily": "Daily report",
+      "exportWeekly": "Weekly report",
+      "exportMonthly": "Monthly report",
+      "exportFormat": "PDF",
+      "comingSoon": "Real data will appear once the financial-reports endpoint is wired to the backend."
+    },
+    "audit": {
+      "title": "Activity log",
+      "subtitle": "Track system operations and audit history.",
+      "tabs": {
+        "logs": "Activity log",
+        "deleted": "Deleted records"
+      },
+      "stats": {
+        "total": "Total activities (7 days)",
+        "deleted": "Deleted records",
+        "deletedSub": "Recoverable",
+        "types": "Activity types",
+        "users": "Active users"
+      },
+      "search": "Search activities...",
+      "allActivities": "All activities",
+      "allEntities": "All entities",
+      "cols": {
+        "time": "Time",
+        "user": "User",
+        "activity": "Activity",
+        "entity": "Entity",
+        "details": "Details",
+        "deletedAt": "Deleted at",
+        "deletedBy": "Deleted by",
+        "name": "Name",
+        "action": "Action"
+      },
+      "restore": "Restore",
+      "empty": "No activities",
+      "emptyDeleted": "No deleted records",
+      "comingSoon": "Real data will appear once /api/audit is wired to the backend."
+    },
+    "customerForm": {
+      "title": "New customer",
+      "subtitle": "Add a customer to the system manually.",
+      "submit": "Add customer",
+      "createFailed": "Failed to create the customer",
+      "steps": {
+        "basic": "Basic info",
+        "additional": "Additional info"
+      },
+      "name": "Name",
+      "namePlaceholder": "Customer full name",
+      "phone": "Phone number",
+      "email": "Email",
+      "gender": "Gender",
+      "selectGender": "Select gender...",
+      "male": "Male",
+      "female": "Female",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional notes...",
+      "errors": {
+        "required": "This field is required",
+        "nameTooShort": "Name must be at least 2 characters",
+        "phoneInvalid": "Invalid phone number",
+        "emailInvalid": "Invalid email address"
+      }
+    },
+    "customers": {
+      "title": "Customers",
+      "subtitle": "View and manage customer data — auto-synced from bookings.",
+      "add": "Add customer",
+      "search": "Search by name, phone, email...",
+      "filters": {
+        "all": "All customers",
+        "incomplete": "Incomplete profile",
+        "vip": "VIP",
+        "new": "New",
+        "banned": "Banned"
+      },
+      "stats": {
+        "total": "Total customers",
+        "vip": "VIP customers",
+        "vipSub": "Two or more visits",
+        "incomplete": "Incomplete profiles",
+        "incompleteSub": "Need completion",
+        "revenue": "Total revenue"
+      },
+      "cols": {
+        "customer": "Customer",
+        "type": "Type",
+        "bookings": "Bookings / revenue",
+        "profile": "Profile status",
+        "actions": "Action"
+      },
+      "incompleteBannerTitle": "Incomplete profiles",
+      "incompleteBannerBody": "{count} customers need profile updates",
+      "incompleteBannerCta": "Show customers",
+      "empty": "No customers match your search",
+      "comingSoon": "Real data will appear once /api/customers is wired to the backend."
+    },
+    "integrations": {
+      "title": "Integrations",
+      "subtitle": "Connect units to booking channels via Channex.io.",
+      "alertsTitle": "Integration alerts",
+      "alertsSubtitle": "Latest alerts from integration services.",
+      "alertTabs": {
+        "open": "Open",
+        "acknowledged": "Acknowledged",
+        "resolved": "Resolved",
+        "all": "All"
+      },
+      "alertEmpty": "No alerts at the moment.",
+      "mappingsTitle": "Channex mappings",
+      "mappingsSubtitle": "Map each unit to a Channex.io property and room type.",
+      "mappingsEmpty": "No mappings created yet.",
+      "comingSoon": "Channex.io integration will activate once /api/integrations and /api/channex are added on the backend."
     },
     "cleaning": {
       "title": "Cleaning & Maintenance Requests",

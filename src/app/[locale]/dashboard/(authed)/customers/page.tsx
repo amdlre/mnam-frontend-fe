@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
-import { User } from 'lucide-react';
 
-import { ComingSoon } from '@/components/dashboard/features/coming-soon';
+import { CustomersDashboard } from '@/components/dashboard/features/customers/customers-dashboard';
+
+interface Props {
+  params: Promise<{ locale: string }>;
+}
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function DashboardCustomersPage() {
-  const [t, tStub] = await Promise.all([
-    getTranslations('dashboard.nav'),
-    getTranslations('dashboard.stub'),
-  ]);
-  return <ComingSoon title={t('customers')} subtitle={tStub('subtitle')} body={tStub('body')} icon={User} />;
+export default async function DashboardCustomersPage({ params }: Props) {
+  const { locale } = await params;
+  return <CustomersDashboard locale={locale} />;
 }
