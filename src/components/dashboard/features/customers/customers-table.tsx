@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState, useTransition } from 'react';
+import { useTranslations } from 'next-intl';
 import { Ban, Check, Loader2, Pencil, Trash2, User } from 'lucide-react';
 import { Card, CardContent, CustomCombobox, CustomInput } from '@amdlre/design-system';
 
@@ -12,42 +13,12 @@ import type { Customer } from '@/lib/api/dashboard/customers';
 
 type CustomerFilter = 'all' | 'incomplete' | 'vip' | 'new' | 'banned';
 
-interface Labels {
-  search: string;
-  filters: Record<CustomerFilter, string>;
-  cols: {
-    customer: string;
-    type: string;
-    bookings: string;
-    profile: string;
-    actions: string;
-  };
-  empty: string;
-  visitorTypeLabels: Record<'مميز' | 'عادي', string>;
-  profileComplete: string;
-  profileIncomplete: string;
-  banned: string;
-  edit: string;
-  delete: string;
-  ban: string;
-  unban: string;
-  deleteConfirmTitle: string;
-  deleteConfirmBody: (name: string) => string;
-  deleteConfirmYes: string;
-  banConfirmTitle: string;
-  banConfirmBody: (name: string) => string;
-  unbanConfirmTitle: string;
-  unbanConfirmBody: (name: string) => string;
-  cancel: string;
-  actionFailed: string;
-}
-
 interface Props {
   customers: Customer[];
-  labels: Labels;
 }
 
-export function CustomersTable({ customers, labels }: Props) {
+export function CustomersTable({ customers }: Props) {
+  const t = useTranslations('dashboard.customers');
   const router = useRouter();
   const confirm = useConfirm();
   const [search, setSearch] = useState('');
@@ -77,17 +48,17 @@ export function CustomersTable({ customers, labels }: Props) {
     });
   }, [customers, filter, search]);
 
-  async function handleEdit(customer: Customer) {
+  function handleEdit(customer: Customer) {
     router.push(`/dashboard/customers/${customer.id}/edit`);
   }
 
   async function handleDelete(customer: Customer) {
     const ok = await confirm({
       iconVariant: 'danger',
-      title: labels.deleteConfirmTitle,
-      description: labels.deleteConfirmBody(customer.name),
-      confirmLabel: labels.deleteConfirmYes,
-      cancelLabel: labels.cancel,
+      title: t('deleteConfirmTitle'),
+      description: t('deleteConfirmBody', { name: customer.name }),
+      confirmLabel: t('deleteConfirmYes'),
+      cancelLabel: t('cancel'),
       confirmVariant: 'destructive',
     });
     if (!ok) return;
@@ -99,9 +70,9 @@ export function CustomersTable({ customers, labels }: Props) {
     } else {
       await confirm({
         iconVariant: 'danger',
-        title: labels.actionFailed,
-        description: result.message ?? labels.actionFailed,
-        confirmLabel: labels.cancel,
+        title: t('actionFailed'),
+        description: result.message ?? t('actionFailed'),
+        confirmLabel: t('cancel'),
         cancelLabel: '',
       });
     }
@@ -111,12 +82,12 @@ export function CustomersTable({ customers, labels }: Props) {
     const willBan = !customer.isBanned;
     const ok = await confirm({
       iconVariant: willBan ? 'warning' : 'info',
-      title: willBan ? labels.banConfirmTitle : labels.unbanConfirmTitle,
+      title: willBan ? t('banConfirmTitle') : t('unbanConfirmTitle'),
       description: willBan
-        ? labels.banConfirmBody(customer.name)
-        : labels.unbanConfirmBody(customer.name),
-      confirmLabel: willBan ? labels.ban : labels.unban,
-      cancelLabel: labels.cancel,
+        ? t('banConfirmBody', { name: customer.name })
+        : t('unbanConfirmBody', { name: customer.name }),
+      confirmLabel: willBan ? t('ban') : t('unban'),
+      cancelLabel: t('cancel'),
       confirmVariant: willBan ? 'destructive' : 'default',
     });
     if (!ok) return;
@@ -128,13 +99,16 @@ export function CustomersTable({ customers, labels }: Props) {
     } else {
       await confirm({
         iconVariant: 'danger',
-        title: labels.actionFailed,
-        description: result.message ?? labels.actionFailed,
-        confirmLabel: labels.cancel,
+        title: t('actionFailed'),
+        description: result.message ?? t('actionFailed'),
+        confirmLabel: t('cancel'),
         cancelLabel: '',
       });
     }
   }
+
+  const visitorLabel = (type: 'مميز' | 'عادي') =>
+    type === 'مميز' ? t('visitor.vip') : t('visitor.regular');
 
   return (
     <>
@@ -143,7 +117,7 @@ export function CustomersTable({ customers, labels }: Props) {
           <div className="md:col-span-2">
             <CustomInput
               type="search"
-              placeholder={labels.search}
+              placeholder={t('search')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -151,11 +125,11 @@ export function CustomersTable({ customers, labels }: Props) {
           <CustomCombobox
             options={(['all', 'incomplete', 'vip', 'new', 'banned'] as const).map((v) => ({
               value: v,
-              label: labels.filters[v],
+              label: t(`filters.${v}`),
             }))}
             value={filter}
             onValueChange={(v) => setFilter((v || 'all') as CustomerFilter)}
-            placeholder={labels.filters.all}
+            placeholder={t('filters.all')}
           />
         </CardContent>
       </Card>
@@ -166,11 +140,11 @@ export function CustomersTable({ customers, labels }: Props) {
             <table className="min-w-full text-right text-sm">
               <thead className="border-neutral-dashboard-border text-neutral-dashboard-muted border-b bg-slate-50">
                 <tr>
-                  <th className="px-4 py-3 font-medium">{labels.cols.customer}</th>
-                  <th className="px-4 py-3 font-medium">{labels.cols.type}</th>
-                  <th className="px-4 py-3 font-medium">{labels.cols.bookings}</th>
-                  <th className="px-4 py-3 font-medium">{labels.cols.profile}</th>
-                  <th className="px-4 py-3 font-medium">{labels.cols.actions}</th>
+                  <th className="px-4 py-3 font-medium">{t('cols.customer')}</th>
+                  <th className="px-4 py-3 font-medium">{t('cols.type')}</th>
+                  <th className="px-4 py-3 font-medium">{t('cols.bookings')}</th>
+                  <th className="px-4 py-3 font-medium">{t('cols.profile')}</th>
+                  <th className="px-4 py-3 font-medium">{t('cols.actions')}</th>
                 </tr>
               </thead>
               <tbody className="divide-neutral-dashboard-border divide-y">
@@ -178,7 +152,7 @@ export function CustomersTable({ customers, labels }: Props) {
                   <tr>
                     <td colSpan={5} className="px-4 py-12 text-center">
                       <User className="mx-auto mb-2 h-12 w-12 text-slate-300" />
-                      <p className="text-neutral-dashboard-muted">{labels.empty}</p>
+                      <p className="text-neutral-dashboard-muted">{t('empty')}</p>
                     </td>
                   </tr>
                 ) : (
@@ -197,17 +171,16 @@ export function CustomersTable({ customers, labels }: Props) {
                         <td className="px-4 py-3">
                           <div className="flex flex-col gap-1">
                             <span
-                              className={`inline-block w-fit rounded border px-2 py-0.5 text-[10px] font-medium ${
-                                c.visitorType === 'مميز'
-                                  ? 'border-violet-200 bg-violet-50 text-violet-700'
-                                  : 'border-slate-200 bg-slate-50 text-slate-600'
-                              }`}
+                              className={`inline-block w-fit rounded border px-2 py-0.5 text-[10px] font-medium ${c.visitorType === 'مميز'
+                                ? 'border-violet-200 bg-violet-50 text-violet-700'
+                                : 'border-slate-200 bg-slate-50 text-slate-600'
+                                }`}
                             >
-                              {labels.visitorTypeLabels[c.visitorType]}
+                              {visitorLabel(c.visitorType)}
                             </span>
                             {c.isBanned ? (
                               <span className="inline-block w-fit rounded border border-red-200 bg-red-50 px-2 py-0.5 text-[10px] font-medium text-red-700">
-                                {labels.banned}
+                                {t('banned')}
                               </span>
                             ) : null}
                           </div>
@@ -220,10 +193,12 @@ export function CustomersTable({ customers, labels }: Props) {
                         </td>
                         <td className="px-4 py-3">
                           {c.isProfileComplete ? (
-                            <span className="text-xs text-emerald-600">{labels.profileComplete}</span>
+                            <span className="text-xs text-emerald-600">
+                              {t('profileComplete')}
+                            </span>
                           ) : (
                             <span className="text-xs font-bold text-orange-600">
-                              {labels.profileIncomplete}
+                              {t('profileIncomplete')}
                             </span>
                           )}
                         </td>
@@ -233,7 +208,7 @@ export function CustomersTable({ customers, labels }: Props) {
                               type="button"
                               onClick={() => handleEdit(c)}
                               disabled={isPending}
-                              title={labels.edit}
+                              title={t('edit')}
                               className="hover:bg-dashboard-primary-50 hover:text-dashboard-primary-600 rounded p-1.5 text-slate-500 transition-colors disabled:opacity-50"
                             >
                               <Pencil className="h-4 w-4" />
@@ -242,12 +217,11 @@ export function CustomersTable({ customers, labels }: Props) {
                               type="button"
                               onClick={() => handleBanToggle(c)}
                               disabled={isPending}
-                              title={c.isBanned ? labels.unban : labels.ban}
-                              className={`rounded p-1.5 transition-colors disabled:opacity-50 ${
-                                c.isBanned
-                                  ? 'text-emerald-600 hover:bg-emerald-50'
-                                  : 'text-amber-600 hover:bg-amber-50'
-                              }`}
+                              title={c.isBanned ? t('unban') : t('ban')}
+                              className={`rounded p-1.5 transition-colors disabled:opacity-50 ${c.isBanned
+                                ? 'text-emerald-600 hover:bg-emerald-50'
+                                : 'text-amber-600 hover:bg-amber-50'
+                                }`}
                             >
                               {c.isBanned ? <Check className="h-4 w-4" /> : <Ban className="h-4 w-4" />}
                             </button>
@@ -255,7 +229,7 @@ export function CustomersTable({ customers, labels }: Props) {
                               type="button"
                               onClick={() => handleDelete(c)}
                               disabled={isPending}
-                              title={labels.delete}
+                              title={t('delete')}
                               className="rounded p-1.5 text-red-500 transition-colors hover:bg-red-50 disabled:opacity-50"
                             >
                               {isPending ? (

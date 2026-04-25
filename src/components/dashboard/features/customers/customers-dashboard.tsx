@@ -61,47 +61,7 @@ export async function CustomersDashboard({ locale }: Props) {
         />
       </div>
 
-      <CustomersTable
-        customers={customers}
-        labels={{
-          search: t('search'),
-          filters: {
-            all: t('filters.all'),
-            incomplete: t('filters.incomplete'),
-            vip: t('filters.vip'),
-            new: t('filters.new'),
-            banned: t('filters.banned'),
-          },
-          cols: {
-            customer: t('cols.customer'),
-            type: t('cols.type'),
-            bookings: t('cols.bookings'),
-            profile: t('cols.profile'),
-            actions: t('cols.actions'),
-          },
-          empty: t('empty'),
-          visitorTypeLabels: {
-            مميز: t('visitor.vip'),
-            عادي: t('visitor.regular'),
-          },
-          profileComplete: t('profileComplete'),
-          profileIncomplete: t('profileIncomplete'),
-          banned: t('banned'),
-          edit: t('edit'),
-          delete: t('delete'),
-          ban: t('ban'),
-          unban: t('unban'),
-          deleteConfirmTitle: t('deleteConfirmTitle'),
-          deleteConfirmBody: (name) => t('deleteConfirmBody', { name }),
-          deleteConfirmYes: t('deleteConfirmYes'),
-          banConfirmTitle: t('banConfirmTitle'),
-          banConfirmBody: (name) => t('banConfirmBody', { name }),
-          unbanConfirmTitle: t('unbanConfirmTitle'),
-          unbanConfirmBody: (name) => t('unbanConfirmBody', { name }),
-          cancel: t('cancel'),
-          actionFailed: t('actionFailed'),
-        }}
-      />
+      <CustomersTable customers={customers} />
     </div>
   );
 }
