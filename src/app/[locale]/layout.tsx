@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { IBM_Plex_Sans_Arabic } from 'next/font/google';
 
@@ -9,7 +10,7 @@ import { Toaster } from '@amdlre/design-system';
 import { routing } from '@/i18n/routing';
 import { Providers } from '@/providers';
 import { generateSiteMetadata } from '@/lib/seo/metadata';
-import { themeInitScript } from '@/lib/theme';
+import { THEME_COOKIE_NAME, isThemePreference } from '@/lib/theme';
 import '../globals.css';
 
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -39,11 +40,18 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
+  // Read the theme cookie so the `dark` class can be set on <html> during SSR.
+  // This avoids a FOUC and the React 19 "script inside React component" warning
+  // we'd hit if we injected an inline init <script>. For 'system' (or no
+  // cookie), we leave the class off and let the client hook resolve it from
+  // `prefers-color-scheme` once mounted; the change is imperceptible.
+  const cookieStore = await cookies();
+  const cookieValue = cookieStore.get(THEME_COOKIE_NAME)?.value;
+  const themePref = isThemePreference(cookieValue) ? cookieValue : 'system';
+  const htmlClass = themePref === 'dark' ? 'dark' : '';
+
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
+    <html lang={locale} dir={dir} className={htmlClass} suppressHydrationWarning>
       <body className={`${ibmPlexSansArabic.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
