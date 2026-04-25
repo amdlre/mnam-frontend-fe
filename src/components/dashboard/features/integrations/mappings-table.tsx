@@ -1,13 +1,15 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useMemo, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
 import { Building2, Trash2 } from 'lucide-react';
 
 import { useConfirm } from '@/components/shared/confirm-modal';
 import { deleteMappingAction } from '@/actions/dashboard/integrations';
 import { useRouter } from '@/i18n/navigation';
+import { EntityTable } from '@/components/dashboard/shared/entity-table';
 
+import type { ColumnDef } from '@tanstack/react-table';
 import type { ChannexConnection, ExternalMapping } from '@/lib/api/dashboard/integrations';
 import type { FetchedUnit } from '@/types/dashboard';
 
@@ -19,6 +21,11 @@ interface Props {
   hasConnections: boolean;
 }
 
+interface MappingRow extends ExternalMapping {
+  unitName: string;
+  propertyName: string;
+}
+
 export function MappingsTable({
   mappings,
   units,
@@ -27,20 +34,10 @@ export function MappingsTable({
   hasConnections,
 }: Props) {
   const t = useTranslations('dashboard.integrations');
+  const tTable = useTranslations('dashboard.dataTable');
   const confirm = useConfirm();
   const router = useRouter();
   const [, startTransition] = useTransition();
-
-  const unitName = (unitId?: string) => {
-    if (!unitId) return '-';
-    const unit = units.find((u) => u.id === unitId);
-    return unit?.unitName ?? unitId.substring(0, 8);
-  };
-
-  const propertyName = (connectionId: string) => {
-    const conn = connections.find((c) => c.id === connectionId);
-    return conn?.channexPropertyId ?? 'Unknown';
-  };
 
   async function handleDelete(mapping: ExternalMapping) {
     const ok = await confirm({
@@ -66,6 +63,122 @@ export function MappingsTable({
     startTransition(() => router.refresh());
   }
 
+  const rows = useMemo<MappingRow[]>(
+    () =>
+      mappings.map((m) => {
+        const unit = m.unitId ? units.find((u) => u.id === m.unitId) : undefined;
+        const conn = connections.find((c) => c.id === m.connectionId);
+        return {
+          ...m,
+          unitName: unit?.unitName ?? (m.unitId ? m.unitId.substring(0, 8) : '-'),
+          propertyName: conn?.channexPropertyId ?? 'Unknown',
+        };
+      }),
+    [mappings, units, connections],
+  );
+
+  const columns = useMemo<ColumnDef<MappingRow, unknown>[]>(
+    () => [
+      {
+        accessorKey: 'unitName',
+        header: t('mappingCols.unit'),
+        meta: { label: t('mappingCols.unit') },
+        cell: ({ row }) => (
+          <span className="text-neutral-dashboard-text font-medium">{row.original.unitName}</span>
+        ),
+      },
+      {
+        accessorKey: 'propertyName',
+        header: t('mappingCols.property'),
+        meta: { label: t('mappingCols.property') },
+        cell: ({ row }) => (
+          <span className="text-neutral-dashboard-muted font-mono text-xs">
+            {row.original.propertyName.length > 15
+              ? `${row.original.propertyName.substring(0, 15)}...`
+              : row.original.propertyName}
+          </span>
+        ),
+      },
+      {
+        accessorKey: 'channexRoomTypeId',
+        header: t('mappingCols.roomType'),
+        meta: { label: t('mappingCols.roomType') },
+        cell: ({ row }) => (
+          <span className="text-neutral-dashboard-muted font-mono text-xs">
+            {row.original.channexRoomTypeId}
+          </span>
+        ),
+      },
+      {
+        accessorKey: 'channexRatePlanId',
+        header: t('mappingCols.ratePlan'),
+        meta: { label: t('mappingCols.ratePlan') },
+        cell: ({ row }) => (
+          <span className="text-neutral-dashboard-muted font-mono text-xs">
+            {row.original.channexRatePlanId}
+          </span>
+        ),
+      },
+      {
+        accessorKey: 'isActive',
+        header: t('mappingCols.status'),
+        meta: { label: t('mappingCols.status') },
+        cell: ({ row }) => (
+          <span
+            className={`rounded px-2 py-0.5 text-[10px] ${
+              row.original.isActive
+                ? 'bg-emerald-100 text-emerald-700'
+                : 'bg-red-100 text-red-700'
+            }`}
+          >
+            {row.original.isActive ? t('mappingActive') : t('mappingInactive')}
+          </span>
+        ),
+      },
+      {
+        id: 'lastSync',
+        header: t('mappingCols.lastSync'),
+        meta: { label: t('mappingCols.lastSync') },
+        enableSorting: false,
+        cell: ({ row }) => (
+          <div className="text-neutral-dashboard-muted text-xs">
+            <div>
+              {t('syncPrice')}{' '}
+              {row.original.lastPriceSyncAt
+                ? new Date(row.original.lastPriceSyncAt).toLocaleDateString('ar-SA')
+                : '-'}
+            </div>
+            <div>
+              {t('syncAvail')}{' '}
+              {row.original.lastAvailSyncAt
+                ? new Date(row.original.lastAvailSyncAt).toLocaleDateString('ar-SA')
+                : '-'}
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'actions',
+        header: tTable('actions'),
+        meta: { label: tTable('actions'), excludeFromExport: true },
+        enableSorting: false,
+        enableHiding: false,
+        cell: ({ row }) => (
+          <button
+            type="button"
+            onClick={() => handleDelete(row.original)}
+            title={t('deleteMapping')}
+            className="rounded p-1 text-slate-400 transition-colors hover:text-red-600"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        ),
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [t, tTable],
+  );
+
   if (mappings.length === 0) {
     return (
       <div className="border-neutral-dashboard-border bg-neutral-dashboard-card overflow-hidden rounded-md border shadow-sm">
@@ -89,78 +202,12 @@ export function MappingsTable({
   }
 
   return (
-    <div className="border-neutral-dashboard-border bg-neutral-dashboard-card overflow-hidden rounded-md border shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full text-right">
-          <thead className="border-neutral-dashboard-border border-b bg-slate-50 text-xs text-slate-500 uppercase">
-            <tr>
-              <th className="px-4 py-3 font-medium">{t('mappingCols.unit')}</th>
-              <th className="px-4 py-3 font-medium">{t('mappingCols.property')}</th>
-              <th className="px-4 py-3 font-medium">{t('mappingCols.roomType')}</th>
-              <th className="px-4 py-3 font-medium">{t('mappingCols.ratePlan')}</th>
-              <th className="px-4 py-3 font-medium">{t('mappingCols.status')}</th>
-              <th className="px-4 py-3 font-medium">{t('mappingCols.lastSync')}</th>
-              <th className="px-4 py-3 font-medium">{t('mappingCols.actions')}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-neutral-dashboard-border divide-y">
-            {mappings.map((m) => {
-              const property = propertyName(m.connectionId);
-              return (
-                <tr key={m.id} className="text-sm transition-colors hover:bg-slate-50">
-                  <td className="text-neutral-dashboard-text px-4 py-3 font-medium">
-                    {unitName(m.unitId)}
-                  </td>
-                  <td className="text-neutral-dashboard-muted px-4 py-3 font-mono text-xs">
-                    {property.substring(0, 15)}...
-                  </td>
-                  <td className="text-neutral-dashboard-muted px-4 py-3 font-mono text-xs">
-                    {m.channexRoomTypeId}
-                  </td>
-                  <td className="text-neutral-dashboard-muted px-4 py-3 font-mono text-xs">
-                    {m.channexRatePlanId}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`rounded px-2 py-0.5 text-[10px] ${
-                        m.isActive
-                          ? 'bg-emerald-100 text-emerald-700'
-                          : 'bg-red-100 text-red-700'
-                      }`}
-                    >
-                      {m.isActive ? t('mappingActive') : t('mappingInactive')}
-                    </span>
-                  </td>
-                  <td className="text-neutral-dashboard-muted px-4 py-3 text-xs">
-                    <div>
-                      {t('syncPrice')}{' '}
-                      {m.lastPriceSyncAt
-                        ? new Date(m.lastPriceSyncAt).toLocaleDateString('ar-SA')
-                        : '-'}
-                    </div>
-                    <div>
-                      {t('syncAvail')}{' '}
-                      {m.lastAvailSyncAt
-                        ? new Date(m.lastAvailSyncAt).toLocaleDateString('ar-SA')
-                        : '-'}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-left">
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(m)}
-                      title={t('deleteMapping')}
-                      className="rounded p-1 text-slate-400 transition-colors hover:text-red-600"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <EntityTable
+      data={rows}
+      columns={columns}
+      getRowId={(row) => row.id}
+      searchableKeys={['unitName', 'propertyName', 'channexRoomTypeId', 'channexRatePlanId']}
+      exportFilename="mappings"
+    />
   );
 }

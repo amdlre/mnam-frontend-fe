@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CustomCombobox, CustomInput } from '@amdlre/design-system';
+import { Card, CardContent } from '@amdlre/design-system';
 
-import { fetchAuditLogsAction } from '@/actions/dashboard/audit';
+import { EntityTable } from '@/components/dashboard/shared/entity-table';
 
+import type { ColumnDef } from '@tanstack/react-table';
 import type {
   AuditLogEntry,
-  AuditLogsPage,
   AuditTypeOption,
   DeletedRecord,
 } from '@/lib/api/dashboard/audit';
@@ -16,56 +16,150 @@ import type {
 type Tab = 'logs' | 'deleted';
 
 interface Props {
-  initialPage: AuditLogsPage;
+  logs: AuditLogEntry[];
   activityTypes: AuditTypeOption[];
   entityTypes: AuditTypeOption[];
   deletedRecords: DeletedRecord[];
 }
 
-const PAGE_SIZE = 20;
+const formatDate = (iso: string) =>
+  new Intl.DateTimeFormat('ar-SA', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(iso));
 
-export function AuditTable({ initialPage, activityTypes, entityTypes, deletedRecords }: Props) {
+export function AuditTable({ logs, activityTypes, entityTypes, deletedRecords }: Props) {
   const t = useTranslations('dashboard.audit');
   const [tab, setTab] = useState<Tab>('logs');
-  const [page, setPage] = useState<AuditLogsPage>(initialPage);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [search, setSearch] = useState('');
-  const [activityType, setActivityType] = useState('all');
-  const [entityType, setEntityType] = useState('all');
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Debounced refetch on filter changes
-  useEffect(() => {
-    const handle = setTimeout(async () => {
-      setIsLoading(true);
-      const result = await fetchAuditLogsAction({
-        page: pageNumber,
-        pageSize: PAGE_SIZE,
-        search: search || undefined,
-        activityType,
-        entityType,
-      });
-      if (result.success && result.data) {
-        setPage(result.data);
-      }
-      setIsLoading(false);
-    }, 250);
-    return () => clearTimeout(handle);
-  }, [pageNumber, search, activityType, entityType]);
+  const logColumns = useMemo<ColumnDef<AuditLogEntry, unknown>[]>(
+    () => [
+      {
+        accessorKey: 'createdAt',
+        header: t('cols.time'),
+        meta: { label: t('cols.time') },
+        cell: ({ row }) => (
+          <span className="text-xs">{formatDate(row.original.createdAt)}</span>
+        ),
+      },
+      {
+        accessorKey: 'userName',
+        header: t('cols.user'),
+        meta: { label: t('cols.user') },
+        cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+            <div className="border-neutral-dashboard-border flex h-6 w-6 items-center justify-center rounded border bg-slate-100 text-xs font-bold text-slate-500">
+              {row.original.userName?.charAt(0) ?? '?'}
+            </div>
+            <span className="text-sm font-medium">{row.original.userName ?? '—'}</span>
+          </div>
+        ),
+      },
+      {
+        accessorKey: 'activityType',
+        header: t('cols.activity'),
+        meta: { label: t('cols.activity') },
+        cell: ({ row }) => (
+          <span className="border-neutral-dashboard-border inline-block rounded border bg-slate-50 px-2 py-0.5 text-[10px]">
+            {row.original.activityLabel}
+          </span>
+        ),
+      },
+      {
+        accessorKey: 'entityType',
+        header: t('cols.entity'),
+        meta: { label: t('cols.entity') },
+        cell: ({ row }) => (
+          <div>
+            <span className="border-neutral-dashboard-border inline-block rounded border bg-slate-50 px-1.5 py-0.5 text-xs">
+              {row.original.entityLabel}
+            </span>
+            {row.original.entityName ? (
+              <div className="mt-1 max-w-[150px] truncate text-xs font-medium">
+                {row.original.entityName}
+              </div>
+            ) : null}
+          </div>
+        ),
+      },
+      {
+        accessorKey: 'description',
+        header: t('cols.details'),
+        meta: { label: t('cols.details') },
+        enableSorting: false,
+        cell: ({ row }) => (
+          <div>
+            <p className="text-neutral-dashboard-muted max-w-xs truncate text-xs">
+              {row.original.description ?? '-'}
+            </p>
+            {row.original.ipAddress ? (
+              <p className="mt-0.5 font-mono text-[10px] text-slate-400">
+                IP: {row.original.ipAddress}
+              </p>
+            ) : null}
+          </div>
+        ),
+      },
+    ],
+    [t],
+  );
 
-  // Reset to first page when filters change
-  useEffect(() => {
-    setPageNumber(1);
-  }, [search, activityType, entityType]);
+  const deletedColumns = useMemo<ColumnDef<DeletedRecord, unknown>[]>(
+    () => [
+      {
+        accessorKey: 'entityType',
+        header: t('cols.entity'),
+        meta: { label: t('cols.entity') },
+        cell: ({ row }) => (
+          <span className="rounded border border-red-100 bg-red-50 px-2 py-0.5 text-[10px] text-red-700">
+            {row.original.entityLabel}
+          </span>
+        ),
+      },
+      {
+        accessorKey: 'name',
+        header: t('cols.name'),
+        meta: { label: t('cols.name') },
+        cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
+      },
+      {
+        accessorKey: 'deletedAt',
+        header: t('cols.deletedAt'),
+        meta: { label: t('cols.deletedAt') },
+        cell: ({ row }) => (
+          <span className="text-xs">
+            {row.original.deletedAt ? formatDate(row.original.deletedAt) : '-'}
+          </span>
+        ),
+      },
+      {
+        accessorKey: 'deletedBy',
+        header: t('cols.deletedBy'),
+        meta: { label: t('cols.deletedBy') },
+        cell: ({ row }) => <span className="text-xs">{row.original.deletedBy ?? '-'}</span>,
+      },
+    ],
+    [t],
+  );
 
-  const formatDate = (iso: string) =>
-    new Intl.DateTimeFormat('ar-SA', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(new Date(iso));
+  const logFilterConfigs = useMemo(
+    () => [
+      {
+        key: 'activityType',
+        label: t('allActivities'),
+        options: activityTypes.map((a) => ({ value: a.value, label: a.label })),
+      },
+      {
+        key: 'entityType',
+        label: t('allEntities'),
+        options: entityTypes.map((e) => ({ value: e.value, label: e.label })),
+      },
+    ],
+    [t, activityTypes, entityTypes],
+  );
 
   return (
     <Card className="border-neutral-dashboard-border">
@@ -80,7 +174,7 @@ export function AuditTable({ initialPage, activityTypes, entityTypes, deletedRec
                 : 'text-neutral-dashboard-muted -mb-px border-b-2 border-transparent px-3 py-2 text-sm font-medium'
             }
           >
-            {t('tabs.logs')} ({page.total})
+            {t('tabs.logs')} ({logs.length})
           </button>
           <button
             type="button"
@@ -95,167 +189,26 @@ export function AuditTable({ initialPage, activityTypes, entityTypes, deletedRec
           </button>
         </nav>
 
-        {tab === 'logs' ? (
-          <>
-            <div className="border-neutral-dashboard-border grid grid-cols-1 gap-x-4 border-b p-4 md:grid-cols-3">
-              <div className="md:col-span-1">
-                <CustomInput
-                  type="search"
-                  placeholder={t('search')}
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
-              <CustomCombobox
-                options={[
-                  { value: 'all', label: t('allActivities') },
-                  ...activityTypes.map((a) => ({ value: a.value, label: a.label })),
-                ]}
-                value={activityType}
-                onValueChange={(v) => setActivityType(v || 'all')}
-                placeholder={t('allActivities')}
-              />
-              <CustomCombobox
-                options={[
-                  { value: 'all', label: t('allEntities') },
-                  ...entityTypes.map((e) => ({ value: e.value, label: e.label })),
-                ]}
-                value={entityType}
-                onValueChange={(v) => setEntityType(v || 'all')}
-                placeholder={t('allEntities')}
-              />
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-right text-sm">
-                <thead className="border-neutral-dashboard-border text-neutral-dashboard-muted border-b bg-slate-50">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">{t('cols.time')}</th>
-                    <th className="px-4 py-3 font-medium">{t('cols.user')}</th>
-                    <th className="px-4 py-3 font-medium">{t('cols.activity')}</th>
-                    <th className="px-4 py-3 font-medium">{t('cols.entity')}</th>
-                    <th className="px-4 py-3 font-medium">{t('cols.details')}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-neutral-dashboard-border divide-y">
-                  {isLoading ? (
-                    <tr>
-                      <td colSpan={5} className="text-neutral-dashboard-muted px-4 py-12 text-center">
-                        ...
-                      </td>
-                    </tr>
-                  ) : page.logs.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} className="text-neutral-dashboard-muted px-4 py-12 text-center">
-                        {t('empty')}
-                      </td>
-                    </tr>
-                  ) : (
-                    page.logs.map((log: AuditLogEntry) => (
-                      <tr key={log.id} className="hover:bg-slate-50">
-                        <td className="px-4 py-3 text-xs">{formatDate(log.createdAt)}</td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <div className="border-neutral-dashboard-border flex h-6 w-6 items-center justify-center rounded border bg-slate-100 text-xs font-bold text-slate-500">
-                              {log.userName?.charAt(0) ?? '?'}
-                            </div>
-                            <span className="text-sm font-medium">{log.userName ?? '—'}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className="border-neutral-dashboard-border inline-block rounded border bg-slate-50 px-2 py-0.5 text-[10px]">
-                            {log.activityLabel}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className="border-neutral-dashboard-border inline-block rounded border bg-slate-50 px-1.5 py-0.5 text-xs">
-                            {log.entityLabel}
-                          </span>
-                          {log.entityName ? (
-                            <div className="mt-1 max-w-[150px] truncate text-xs font-medium">
-                              {log.entityName}
-                            </div>
-                          ) : null}
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-neutral-dashboard-muted max-w-xs truncate text-xs">
-                            {log.description ?? '-'}
-                          </p>
-                          {log.ipAddress ? (
-                            <p className="mt-0.5 font-mono text-[10px] text-slate-400">
-                              IP: {log.ipAddress}
-                            </p>
-                          ) : null}
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            {page.totalPages > 1 ? (
-              <div className="border-neutral-dashboard-border flex items-center justify-between border-t bg-slate-50 px-4 py-3">
-                <button
-                  type="button"
-                  onClick={() => setPageNumber((p) => Math.max(1, p - 1))}
-                  disabled={page.page <= 1}
-                  className="border-neutral-dashboard-border rounded border bg-white px-3 py-1 text-xs hover:bg-slate-50 disabled:opacity-50"
-                >
-                  «
-                </button>
-                <span className="text-xs">
-                  {page.page} / {page.totalPages}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setPageNumber((p) => Math.min(page.totalPages, p + 1))}
-                  disabled={page.page >= page.totalPages}
-                  className="border-neutral-dashboard-border rounded border bg-white px-3 py-1 text-xs hover:bg-slate-50 disabled:opacity-50"
-                >
-                  »
-                </button>
-              </div>
-            ) : null}
-          </>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-right text-sm">
-              <thead className="border-b border-red-100 bg-red-50 text-red-800">
-                <tr>
-                  <th className="px-4 py-3 font-medium">{t('cols.entity')}</th>
-                  <th className="px-4 py-3 font-medium">{t('cols.name')}</th>
-                  <th className="px-4 py-3 font-medium">{t('cols.deletedAt')}</th>
-                  <th className="px-4 py-3 font-medium">{t('cols.deletedBy')}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-neutral-dashboard-border divide-y">
-                {deletedRecords.length === 0 ? (
-                  <tr>
-                    <td colSpan={4} className="text-neutral-dashboard-muted px-4 py-12 text-center">
-                      {t('emptyDeleted')}
-                    </td>
-                  </tr>
-                ) : (
-                  deletedRecords.map((r) => (
-                    <tr key={`${r.entityType}-${r.id}`}>
-                      <td className="px-4 py-3">
-                        <span className="rounded border border-red-100 bg-red-50 px-2 py-0.5 text-[10px] text-red-700">
-                          {r.entityLabel}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 font-medium">{r.name}</td>
-                      <td className="px-4 py-3 text-xs">
-                        {r.deletedAt ? formatDate(r.deletedAt) : '-'}
-                      </td>
-                      <td className="px-4 py-3 text-xs">{r.deletedBy ?? '-'}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <div className="p-4">
+          {tab === 'logs' ? (
+            <EntityTable
+              data={logs}
+              columns={logColumns}
+              getRowId={(row) => row.id}
+              searchableKeys={['userName', 'entityName', 'description', 'activityLabel', 'entityLabel']}
+              filterConfigs={logFilterConfigs}
+              exportFilename="audit-logs"
+            />
+          ) : (
+            <EntityTable
+              data={deletedRecords}
+              columns={deletedColumns}
+              getRowId={(row) => `${row.entityType}-${row.id}`}
+              searchableKeys={['name', 'entityLabel', 'deletedBy']}
+              exportFilename="deleted-records"
+            />
+          )}
+        </div>
       </CardContent>
     </Card>
   );

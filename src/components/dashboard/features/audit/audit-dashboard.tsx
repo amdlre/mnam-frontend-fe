@@ -14,9 +14,9 @@ import {
 import { AuditTable } from './audit-table';
 
 export async function AuditDashboard() {
-  const [t, initialPage, stats, activityTypes, entityTypes, deletedRecords] = await Promise.all([
+  const [t, page, stats, activityTypes, entityTypes, deletedRecords] = await Promise.all([
     getTranslations('dashboard.audit'),
-    fetchAuditLogs({ page: 1, pageSize: 20 }),
+    fetchAuditLogs({ page: 1, pageSize: 1000 }),
     fetchAuditStats(7),
     fetchAuditActivityTypes(),
     fetchAuditEntityTypes(),
@@ -52,7 +52,7 @@ export async function AuditDashboard() {
       </div>
 
       <AuditTable
-        initialPage={initialPage}
+        logs={page.logs}
         activityTypes={activityTypes}
         entityTypes={entityTypes}
         deletedRecords={deletedRecords}

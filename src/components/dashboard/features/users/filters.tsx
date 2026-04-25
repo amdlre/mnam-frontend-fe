@@ -14,7 +14,7 @@ export function UsersFilters() {
 
   function update(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString());
-    if (!value || value === 'all' || value === 'grid') params.delete(key);
+    if (!value || value === 'all') params.delete(key);
     else params.set(key, value);
     const qs = params.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname);
@@ -23,10 +23,9 @@ export function UsersFilters() {
   const currentSearch = searchParams.get('q') || '';
   const currentRole = searchParams.get('role') || 'all';
   const currentStatus = searchParams.get('status') || 'all';
-  const currentView = searchParams.get('view') || 'grid';
 
   return (
-    <div className="bg-neutral-dashboard-card border-neutral-dashboard-border flex flex-wrap items-center gap-4 rounded-md border p-4 shadow-sm">
+    <div className="flex flex-wrap items-center gap-3">
       <div className="relative min-w-[200px] flex-grow">
         <Search className="text-neutral-dashboard-muted absolute top-2.5 end-3 h-4 w-4" />
         <input
@@ -58,29 +57,50 @@ export function UsersFilters() {
         <option value="active">{t('active')}</option>
         <option value="inactive">{t('inactive')}</option>
       </select>
+    </div>
+  );
+}
 
-      <div className="border-neutral-dashboard-border flex rounded border bg-slate-100 p-0.5">
-        <button
-          type="button"
-          onClick={() => update('view', 'grid')}
-          className={`rounded px-2 py-1 text-xs font-medium transition-colors ${currentView === 'grid'
+export function UsersViewToggle() {
+  const t = useTranslations('dashboard.users');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  function update(value: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value === 'grid') params.delete('view');
+    else params.set('view', value);
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname);
+  }
+
+  const currentView = searchParams.get('view') || 'grid';
+
+  return (
+    <div className="border-neutral-dashboard-border flex rounded border bg-slate-100 p-0.5">
+      <button
+        type="button"
+        onClick={() => update('grid')}
+        className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
+          currentView === 'grid'
             ? 'text-dashboard-primary-600 bg-white shadow-sm'
             : 'text-neutral-500 hover:text-neutral-700'
-            }`}
-        >
-          {t('grid')}
-        </button>
-        <button
-          type="button"
-          onClick={() => update('view', 'table')}
-          className={`rounded px-2 py-1 text-xs font-medium transition-colors ${currentView === 'table'
+        }`}
+      >
+        {t('grid')}
+      </button>
+      <button
+        type="button"
+        onClick={() => update('table')}
+        className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
+          currentView === 'table'
             ? 'text-dashboard-primary-600 bg-white shadow-sm'
             : 'text-neutral-500 hover:text-neutral-700'
-            }`}
-        >
-          {t('table')}
-        </button>
-      </div>
+        }`}
+      >
+        {t('table')}
+      </button>
     </div>
   );
 }

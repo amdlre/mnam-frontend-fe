@@ -7,12 +7,18 @@ import { dashboardApi, DashboardApiException } from '@/lib/api/dashboard/fetcher
 import {
   bookingCreateSchema,
   ownerCreateSchema,
+  ownerEditSchema,
   projectCreateSchema,
+  projectEditSchema,
   unitCreateSchema,
+  unitEditSchema,
   type BookingCreateFormData,
   type OwnerCreateFormData,
+  type OwnerEditFormData,
   type ProjectCreateFormData,
+  type ProjectEditFormData,
   type UnitCreateFormData,
+  type UnitEditFormData,
 } from '@/lib/validations/dashboard/entities';
 
 export interface EntityActionResult {
@@ -62,6 +68,29 @@ export async function deleteOwnerAction(ownerId: string): Promise<EntityActionRe
   }
 }
 
+export async function updateOwnerAction(
+  ownerId: string,
+  input: OwnerEditFormData,
+): Promise<EntityActionResult> {
+  const parsed = ownerEditSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      success: false,
+      errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+    };
+  }
+  try {
+    await dashboardApi.put(DASHBOARD_ENDPOINTS.owners.byId(ownerId), {
+      ...parsed.data,
+      paypal_email: parsed.data.paypal_email || null,
+    });
+    revalidatePath('/[locale]/dashboard/owners', 'page');
+    return { success: true, id: ownerId };
+  } catch (error) {
+    return mapException(error);
+  }
+}
+
 // ─── Project ────────────────────────────────────────────────
 export async function createProjectAction(
   input: ProjectCreateFormData,
@@ -87,6 +116,26 @@ export async function deleteProjectAction(projectId: string): Promise<EntityActi
     await dashboardApi.delete(DASHBOARD_ENDPOINTS.projects.delete(projectId));
     revalidatePath('/[locale]/dashboard/projects', 'page');
     return { success: true };
+  } catch (error) {
+    return mapException(error);
+  }
+}
+
+export async function updateProjectAction(
+  projectId: string,
+  input: ProjectEditFormData,
+): Promise<EntityActionResult> {
+  const parsed = projectEditSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      success: false,
+      errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+    };
+  }
+  try {
+    await dashboardApi.put(DASHBOARD_ENDPOINTS.projects.byId(projectId), parsed.data);
+    revalidatePath('/[locale]/dashboard/projects', 'page');
+    return { success: true, id: projectId };
   } catch (error) {
     return mapException(error);
   }
@@ -128,6 +177,57 @@ export async function createUnitAction(
     const res = await dashboardApi.post<{ id: string }>(DASHBOARD_ENDPOINTS.units.create, payload);
     revalidatePath('/[locale]/dashboard/units', 'page');
     return { success: true, id: res?.id };
+  } catch (error) {
+    return mapException(error);
+  }
+}
+
+export async function updateUnitAction(
+  unitId: string,
+  input: UnitEditFormData,
+): Promise<EntityActionResult> {
+  const parsed = unitEditSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      success: false,
+      errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+    };
+  }
+  try {
+    const base = parsed.data.base_weekday_price;
+    const markup = parsed.data.weekend_markup_percent;
+    const payload = {
+      project_id: parsed.data.project_id,
+      unit_name: parsed.data.unit_name,
+      unit_type: parsed.data.unit_type,
+      rooms: parsed.data.rooms,
+      floor_number: parsed.data.floor_number,
+      unit_area: parsed.data.unit_area,
+      status: parsed.data.status,
+      price_days_of_week: base,
+      price_in_weekends: Math.round(base * (1 + markup / 100) * 100) / 100,
+      amenities: parsed.data.amenities,
+      description: parsed.data.description || null,
+      permit_no: parsed.data.permit_no || null,
+      access_info: parsed.data.access_info || null,
+      booking_links: parsed.data.booking_links,
+      discount_16_percent: parsed.data.discount_16_percent,
+      discount_21_percent: parsed.data.discount_21_percent,
+      discount_23_percent: parsed.data.discount_23_percent,
+    };
+    await dashboardApi.put(DASHBOARD_ENDPOINTS.units.byId(unitId), payload);
+    revalidatePath('/[locale]/dashboard/units', 'page');
+    return { success: true, id: unitId };
+  } catch (error) {
+    return mapException(error);
+  }
+}
+
+export async function deleteUnitAction(unitId: string): Promise<EntityActionResult> {
+  try {
+    await dashboardApi.delete(DASHBOARD_ENDPOINTS.units.byId(unitId));
+    revalidatePath('/[locale]/dashboard/units', 'page');
+    return { success: true };
   } catch (error) {
     return mapException(error);
   }

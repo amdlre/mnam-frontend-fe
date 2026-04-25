@@ -16,6 +16,9 @@ export const ownerCreateSchema = z.object({
 });
 export type OwnerCreateFormData = z.infer<typeof ownerCreateSchema>;
 
+export const ownerEditSchema = ownerCreateSchema;
+export type OwnerEditFormData = z.infer<typeof ownerEditSchema>;
+
 // ─── Project ────────────────────────────────────────────────
 export const projectCreateSchema = z.object({
   name: z.string().min(1, { message: 'required' }),
@@ -36,6 +39,9 @@ export const projectCreateSchema = z.object({
   bank_iban: z.string(),
 });
 export type ProjectCreateFormData = z.infer<typeof projectCreateSchema>;
+
+export const projectEditSchema = projectCreateSchema;
+export type ProjectEditFormData = z.infer<typeof projectEditSchema>;
 
 // ─── Unit ───────────────────────────────────────────────────
 export const unitCreateSchema = z.object({
@@ -66,6 +72,9 @@ export const unitCreateSchema = z.object({
   booking_links: z.array(z.object({ platform: z.string(), url: z.string() })),
 });
 export type UnitCreateFormData = z.infer<typeof unitCreateSchema>;
+
+export const unitEditSchema = unitCreateSchema;
+export type UnitEditFormData = z.infer<typeof unitEditSchema>;
 
 // ─── Booking ────────────────────────────────────────────────
 export const bookingCreateSchema = z

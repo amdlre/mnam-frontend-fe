@@ -3,10 +3,10 @@ import { getTranslations } from 'next-intl/server';
 import { UserPlus, Users as UsersIcon } from 'lucide-react';
 import { Button } from '@amdlre/design-system';
 
-import { Link } from '@/i18n/navigation';
 import { fetchEmployeesStatus, fetchSystemUsers } from '@/lib/api/dashboard/users';
 import { UserCard } from '@/components/dashboard/features/users/user-card';
-import { UsersFilters } from '@/components/dashboard/features/users/filters';
+import { UsersFilters, UsersViewToggle } from '@/components/dashboard/features/users/filters';
+import { UsersTable } from '@/components/dashboard/features/users/users-table';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { StatCard } from '@/components/dashboard/shared/stat-card';
 
@@ -40,16 +40,14 @@ function applyFilters(
 
 export default async function DashboardUsersPage({ params, searchParams }: Props) {
   const [{ locale }, sp] = await Promise.all([params, searchParams]);
-  const [t, tRoles, users, statuses] = await Promise.all([
+  const [t, users, statuses] = await Promise.all([
     getTranslations('dashboard.users'),
-    getTranslations('dashboard.roles'),
     fetchSystemUsers(),
     fetchEmployeesStatus(),
   ]);
 
-  const filtered = applyFilters(users, sp);
   const viewMode = sp.view === 'table' ? 'table' : 'grid';
-
+  const filtered = viewMode === 'grid' ? applyFilters(users, sp) : users;
   const statusById = new Map(statuses.map((s) => [s.employeeId, s]));
 
   const totalMembers = users.length;
@@ -90,86 +88,27 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
         />
       </section>
 
-      <UsersFilters />
+      <div className="bg-neutral-dashboard-card border-neutral-dashboard-border flex flex-wrap items-center justify-between gap-4 rounded-md border p-4 shadow-sm">
+        {viewMode === 'grid' ? <UsersFilters /> : <div />}
+        <UsersViewToggle />
+      </div>
 
-      {filtered.length === 0 ? (
-        <div className="text-neutral-dashboard-muted py-12 text-center">
-          <UsersIcon className="mx-auto mb-2 h-12 w-12 text-slate-300" />
-          <p>{t('empty')}</p>
-        </div>
-      ) : viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((user) => (
-            <UserCard key={user.id} user={user} status={statusById.get(user.id)} />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-neutral-dashboard-card border-neutral-dashboard-border overflow-hidden rounded-md border shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-right text-sm">
-              <thead className="text-neutral-dashboard-muted border-neutral-dashboard-border border-b bg-slate-50">
-                <tr>
-                  <th className="px-4 py-3 font-medium">{t('cols.user')}</th>
-                  <th className="px-4 py-3 font-medium">{t('cols.username')}</th>
-                  <th className="px-4 py-3 font-medium">{t('cols.role')}</th>
-                  <th className="px-4 py-3 font-medium">{t('cols.status')}</th>
-                  <th className="px-4 py-3 font-medium">{t('cols.actions')}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-neutral-dashboard-border divide-y">
-                {filtered.map((user) => (
-                  <tr key={user.id} className="transition-colors hover:bg-slate-50">
-                    <td className="text-neutral-dashboard-text px-4 py-3 font-medium">
-                      {user.firstName} {user.lastName}
-                    </td>
-                    <td className="text-neutral-dashboard-text px-4 py-3 font-mono text-xs">
-                      @{user.username}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] text-slate-600">
-                        {tRoles(user.role)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className={`h-2 w-2 rounded-full ${user.isActive ? 'bg-emerald-500' : 'bg-slate-400'
-                            }`}
-                        />
-                        <span
-                          className={`text-xs ${user.isActive ? 'text-emerald-700' : 'text-slate-500'
-                            }`}
-                        >
-                          {user.isActive ? t('active') : t('inactive')}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="flex gap-2 px-4 py-3">
-                      {!user.isSystemOwner ? (
-                        <>
-                          <Link
-                            href={`/dashboard/users/${user.id}`}
-                            className="text-xs text-indigo-600 hover:underline"
-                          >
-                            {t('file')}
-                          </Link>
-                          <Link
-                            href={`/dashboard/users/${user.id}/edit`}
-                            className="text-dashboard-primary-600 text-xs hover:underline"
-                          >
-                            {t('edit')}
-                          </Link>
-                        </>
-                      ) : null}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {viewMode === 'grid' ? (
+        filtered.length === 0 ? (
+          <div className="text-neutral-dashboard-muted py-12 text-center">
+            <UsersIcon className="mx-auto mb-2 h-12 w-12 text-slate-300" />
+            <p>{t('empty')}</p>
           </div>
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {filtered.map((user) => (
+              <UserCard key={user.id} user={user} status={statusById.get(user.id)} />
+            ))}
+          </div>
+        )
+      ) : (
+        <UsersTable users={users} />
       )}
     </div>
   );
 }
-
