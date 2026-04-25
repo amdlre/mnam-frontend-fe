@@ -12,3 +12,6 @@ export const customerCreateSchema = z.object({
 });
 
 export type CustomerCreateFormData = z.infer<typeof customerCreateSchema>;
+
+export const customerEditSchema = customerCreateSchema;
+export type CustomerEditFormData = z.infer<typeof customerEditSchema>;

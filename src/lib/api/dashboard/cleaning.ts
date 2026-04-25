@@ -1,3 +1,4 @@
+import { DASHBOARD_ENDPOINTS } from './endpoints';
 import { dashboardApi } from './fetcher';
 
 import type {
@@ -54,7 +55,7 @@ export async function fetchCleaningRequests(
   if (filters?.limit) qs.set('limit', String(filters.limit));
   if (filters?.sort) qs.set('sort', filters.sort);
   if (filters?.order) qs.set('order', filters.order);
-  const path = `/api/requests${qs.toString() ? `?${qs.toString()}` : ''}`;
+  const path = `${DASHBOARD_ENDPOINTS.requests.list}${qs.toString() ? `?${qs.toString()}` : ''}`;
 
   try {
     const data = await dashboardApi.get<unknown>(path);
@@ -71,7 +72,7 @@ export async function fetchCleaningRequests(
 
 export async function fetchCleaningStats(): Promise<CleaningMaintenanceStats> {
   try {
-    return await dashboardApi.get<CleaningMaintenanceStats>('/api/requests/stats');
+    return await dashboardApi.get<CleaningMaintenanceStats>(DASHBOARD_ENDPOINTS.requests.stats);
   } catch {
     return { total: 0, cleaning: 0, maintenance: 0 };
   }

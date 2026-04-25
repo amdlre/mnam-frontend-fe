@@ -1,3 +1,4 @@
+import { DASHBOARD_ENDPOINTS } from './endpoints';
 import { dashboardApi } from './fetcher';
 
 export interface TeamAchievement {
@@ -50,7 +51,7 @@ const ZERO_ACHIEVEMENT: TeamAchievement = {
 
 export async function fetchTeamAchievement(): Promise<TeamAchievement> {
   try {
-    const data = await dashboardApi.get<ApiTeamAchievement>('/api/transactions/team-achievement');
+    const data = await dashboardApi.get<ApiTeamAchievement>(DASHBOARD_ENDPOINTS.transactions.teamAchievement);
     return {
       dailyChallenge: {
         unitOccupancy: data.daily_challenge.unit_occupancy ?? 0,

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { DASHBOARD_ENDPOINTS } from '@/lib/api/dashboard/endpoints';
 import { dashboardApi, DashboardApiException } from '@/lib/api/dashboard/fetcher';
 import {
   userCreateSchema,
@@ -28,7 +29,7 @@ export async function createUserAction(
   }
 
   try {
-    await dashboardApi.post('/api/users', parsed.data);
+    await dashboardApi.post(DASHBOARD_ENDPOINTS.users.create, parsed.data);
     revalidatePath('/[locale]/dashboard/users', 'page');
     return { success: true };
   } catch (error) {
@@ -51,7 +52,7 @@ export async function updateUserAction(
     };
   }
   try {
-    await dashboardApi.put(`/api/users/${userId}`, parsed.data);
+    await dashboardApi.put(DASHBOARD_ENDPOINTS.users.update(userId), parsed.data);
     revalidatePath('/[locale]/dashboard/users', 'page');
     return { success: true };
   } catch (error) {
@@ -67,7 +68,7 @@ export async function deleteUserAction(
   permanent = false,
 ): Promise<UsersActionResult> {
   try {
-    await dashboardApi.delete(`/api/users/${userId}?permanent=${permanent}`);
+    await dashboardApi.delete(DASHBOARD_ENDPOINTS.users.delete(userId, permanent));
     revalidatePath('/[locale]/dashboard/users', 'page');
     return { success: true };
   } catch (error) {
@@ -80,7 +81,7 @@ export async function deleteUserAction(
 
 export async function toggleUserActiveAction(userId: string): Promise<UsersActionResult> {
   try {
-    await dashboardApi.patch(`/api/users/${userId}/toggle-active`);
+    await dashboardApi.patch(DASHBOARD_ENDPOINTS.users.toggleActive(userId));
     revalidatePath('/[locale]/dashboard/users', 'page');
     return { success: true };
   } catch (error) {

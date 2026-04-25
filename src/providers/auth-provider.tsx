@@ -8,6 +8,8 @@ import {
   useState,
 } from 'react';
 
+import { DASHBOARD_ENDPOINTS } from '@/lib/api/dashboard/endpoints';
+
 import type { User, AuthState } from '@/types/auth';
 
 interface AuthContextValue extends AuthState {
@@ -27,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function loadUser() {
       try {
-        const res = await fetch('/api/auth/me');
+        const res = await fetch(DASHBOARD_ENDPOINTS.auth.me);
         if (res.ok) {
           const data = await res.json();
           setState({ user: data.user, isLoading: false, isAuthenticated: true });
@@ -51,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch(DASHBOARD_ENDPOINTS.auth.logout, { method: 'POST' });
     } finally {
       setState({ user: null, isLoading: false, isAuthenticated: false });
       window.location.href = '/login';

@@ -1,3 +1,4 @@
+import { DASHBOARD_ENDPOINTS } from './endpoints';
 import { dashboardApi } from './fetcher';
 
 import type { FetchedUnit } from '@/types/dashboard';
@@ -51,7 +52,7 @@ function normalizeUnit(u: ApiUnit): FetchedUnit {
 
 export async function fetchUnits(): Promise<FetchedUnit[]> {
   try {
-    const data = await dashboardApi.get<ApiUnit[]>('/api/units');
+    const data = await dashboardApi.get<ApiUnit[]>(DASHBOARD_ENDPOINTS.units.list);
     return data.map(normalizeUnit);
   } catch {
     return [];

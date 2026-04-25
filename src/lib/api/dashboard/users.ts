@@ -1,3 +1,4 @@
+import { DASHBOARD_ENDPOINTS } from './endpoints';
 import { dashboardApi } from './fetcher';
 
 import type {
@@ -37,7 +38,7 @@ function normalizeUser(u: ApiUser): SystemUser {
 
 export async function fetchSystemUsers(): Promise<SystemUser[]> {
   try {
-    const data = await dashboardApi.get<ApiUser[]>('/api/users');
+    const data = await dashboardApi.get<ApiUser[]>(DASHBOARD_ENDPOINTS.users.list);
     return data.map(normalizeUser);
   } catch {
     return [];
@@ -55,7 +56,7 @@ export async function fetchUserById(userId: string): Promise<SystemUser | null> 
 
 export async function fetchAssignableRoles(): Promise<AssignableRole[]> {
   try {
-    return await dashboardApi.get<AssignableRole[]>('/api/users/roles/assignable');
+    return await dashboardApi.get<AssignableRole[]>(DASHBOARD_ENDPOINTS.users.rolesAssignable);
   } catch {
     return [
       { value: 'owners_agent', label: 'وكيل ملاك' },
@@ -67,7 +68,7 @@ export async function fetchAssignableRoles(): Promise<AssignableRole[]> {
 export async function fetchEmployeesStatus(): Promise<EmployeeOnlineStatus[]> {
   try {
     return await dashboardApi.get<EmployeeOnlineStatus[]>(
-      '/api/employee-performance/employees-status',
+      DASHBOARD_ENDPOINTS.employeePerformance.employeesStatus,
     );
   } catch {
     return [];

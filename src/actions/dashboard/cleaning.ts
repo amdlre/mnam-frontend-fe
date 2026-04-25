@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { DASHBOARD_ENDPOINTS } from '@/lib/api/dashboard/endpoints';
 import { dashboardApi, DashboardApiException } from '@/lib/api/dashboard/fetcher';
 
 import type { CleaningRequestStatus, CleaningRequestType } from '@/types/dashboard';
@@ -18,7 +19,7 @@ export async function createCleaningRequestAction(
 ): Promise<CleaningActionResult> {
   if (!unit) return { success: false, message: 'unitRequired' };
   try {
-    await dashboardApi.post('/api/requests', { unit, type, notes });
+    await dashboardApi.post(DASHBOARD_ENDPOINTS.requests.create, { unit, type, notes });
     revalidatePath('/[locale]/dashboard/cleaning-maintenance', 'page');
     return { success: true };
   } catch (error) {
@@ -34,7 +35,7 @@ export async function updateCleaningRequestStatusAction(
   status: CleaningRequestStatus,
 ): Promise<CleaningActionResult> {
   try {
-    await dashboardApi.patch(`/api/requests/${requestId}/status`, { status });
+    await dashboardApi.patch(DASHBOARD_ENDPOINTS.requests.updateStatus(requestId), { status });
     revalidatePath('/[locale]/dashboard/cleaning-maintenance', 'page');
     return { success: true };
   } catch (error) {

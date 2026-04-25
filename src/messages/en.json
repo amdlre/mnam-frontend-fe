@@ -827,7 +827,26 @@
       "incompleteBannerBody": "{count} customers need profile updates",
       "incompleteBannerCta": "Show customers",
       "empty": "No customers match your search",
-      "comingSoon": "Real data will appear once /api/customers is wired to the backend."
+      "profileComplete": "Complete",
+      "profileIncomplete": "Incomplete ⚠️",
+      "banned": "Banned",
+      "edit": "Edit",
+      "delete": "Delete",
+      "ban": "Ban",
+      "unban": "Unban",
+      "deleteConfirmTitle": "Delete customer",
+      "deleteConfirmBody": "Are you sure you want to delete customer \"{name}\"?",
+      "deleteConfirmYes": "Yes, delete",
+      "banConfirmTitle": "Ban customer",
+      "banConfirmBody": "Are you sure you want to ban customer \"{name}\"?",
+      "unbanConfirmTitle": "Unban customer",
+      "unbanConfirmBody": "Are you sure you want to unban customer \"{name}\"?",
+      "cancel": "Cancel",
+      "actionFailed": "Action failed",
+      "visitor": {
+        "vip": "VIP",
+        "regular": "Regular"
+      }
     },
     "integrations": {
       "title": "Integrations",

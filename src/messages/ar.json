@@ -827,7 +827,26 @@
       "incompleteBannerBody": "{count} عميل بحاجة لتحديث البيانات",
       "incompleteBannerCta": "عرض العملاء",
       "empty": "لا يوجد عملاء يطابقون البحث",
-      "comingSoon": "البيانات الفعلية ستظهر فور ربط نقطة /api/customers بالخادم."
+      "profileComplete": "مكتمل",
+      "profileIncomplete": "ناقص ⚠️",
+      "banned": "محظور",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "ban": "حظر",
+      "unban": "إلغاء الحظر",
+      "deleteConfirmTitle": "حذف العميل",
+      "deleteConfirmBody": "هل أنت متأكد من حذف العميل \"{name}\"؟",
+      "deleteConfirmYes": "نعم، احذف",
+      "banConfirmTitle": "حظر العميل",
+      "banConfirmBody": "هل أنت متأكد من حظر العميل \"{name}\"؟",
+      "unbanConfirmTitle": "إلغاء حظر العميل",
+      "unbanConfirmBody": "هل أنت متأكد من إلغاء حظر العميل \"{name}\"؟",
+      "cancel": "إلغاء",
+      "actionFailed": "فشل تنفيذ العملية",
+      "visitor": {
+        "vip": "مميز",
+        "regular": "عادي"
+      }
     },
     "integrations": {
       "title": "التكاملات",

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { DASHBOARD_ENDPOINTS } from '@/lib/api/dashboard/endpoints';
 import { dashboardApi, DashboardApiException } from '@/lib/api/dashboard/fetcher';
 import {
   bookingCreateSchema,
@@ -40,7 +41,7 @@ export async function createOwnerAction(
     };
   }
   try {
-    const res = await dashboardApi.post<{ id: string }>('/api/owners', {
+    const res = await dashboardApi.post<{ id: string }>(DASHBOARD_ENDPOINTS.owners.create, {
       ...parsed.data,
       paypal_email: parsed.data.paypal_email || null,
     });
@@ -53,7 +54,7 @@ export async function createOwnerAction(
 
 export async function deleteOwnerAction(ownerId: string): Promise<EntityActionResult> {
   try {
-    await dashboardApi.delete(`/api/owners/${ownerId}`);
+    await dashboardApi.delete(DASHBOARD_ENDPOINTS.owners.delete(ownerId));
     revalidatePath('/[locale]/dashboard/owners', 'page');
     return { success: true };
   } catch (error) {
@@ -73,7 +74,7 @@ export async function createProjectAction(
     };
   }
   try {
-    const res = await dashboardApi.post<{ id: string }>('/api/projects', parsed.data);
+    const res = await dashboardApi.post<{ id: string }>(DASHBOARD_ENDPOINTS.projects.create, parsed.data);
     revalidatePath('/[locale]/dashboard/projects', 'page');
     return { success: true, id: res?.id };
   } catch (error) {
@@ -83,7 +84,7 @@ export async function createProjectAction(
 
 export async function deleteProjectAction(projectId: string): Promise<EntityActionResult> {
   try {
-    await dashboardApi.delete(`/api/projects/${projectId}`);
+    await dashboardApi.delete(DASHBOARD_ENDPOINTS.projects.delete(projectId));
     revalidatePath('/[locale]/dashboard/projects', 'page');
     return { success: true };
   } catch (error) {
@@ -103,7 +104,7 @@ export async function createUnitAction(
     };
   }
   try {
-    const res = await dashboardApi.post<{ id: string }>('/api/units', parsed.data);
+    const res = await dashboardApi.post<{ id: string }>(DASHBOARD_ENDPOINTS.units.create, parsed.data);
     revalidatePath('/[locale]/dashboard/units', 'page');
     return { success: true, id: res?.id };
   } catch (error) {
@@ -123,7 +124,7 @@ export async function createBookingAction(
     };
   }
   try {
-    const res = await dashboardApi.post<{ id: string }>('/api/bookings', parsed.data);
+    const res = await dashboardApi.post<{ id: string }>(DASHBOARD_ENDPOINTS.bookings.create, parsed.data);
     revalidatePath('/[locale]/dashboard/bookings', 'page');
     return { success: true, id: res?.id };
   } catch (error) {

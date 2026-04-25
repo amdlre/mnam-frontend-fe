@@ -1,3 +1,4 @@
+import { DASHBOARD_ENDPOINTS } from './endpoints';
 import { dashboardApi } from './fetcher';
 
 import type {
@@ -35,7 +36,7 @@ function normalizeOwner(o: ApiOwner): Owner {
 
 export async function fetchOwners(): Promise<Owner[]> {
   try {
-    const data = await dashboardApi.get<ApiOwner[]>('/api/owners');
+    const data = await dashboardApi.get<ApiOwner[]>(DASHBOARD_ENDPOINTS.owners.list);
     return data.map(normalizeOwner);
   } catch {
     return [];
@@ -57,7 +58,7 @@ export async function fetchOwnerProjects(
   try {
     const data = await dashboardApi.get<
       Array<{ project_name: string; city?: string; district?: string; unit_count: number }>
-    >(`/api/owners/${ownerId}/projects`);
+    >(DASHBOARD_ENDPOINTS.owners.projects(ownerId));
     return data.map((p) => ({
       projectName: p.project_name,
       city: p.city,
@@ -76,7 +77,7 @@ export interface SimpleOwner {
 
 export async function fetchSimpleOwners(): Promise<SimpleOwner[]> {
   try {
-    return await dashboardApi.get<SimpleOwner[]>('/api/owners/select');
+    return await dashboardApi.get<SimpleOwner[]>(DASHBOARD_ENDPOINTS.owners.select);
   } catch {
     const all = await fetchOwners();
     return all.map((o) => ({ id: o.id, name: o.ownerName }));
@@ -113,7 +114,7 @@ function normalizeProject(p: ApiProject): Project {
 
 export async function fetchProjects(): Promise<Project[]> {
   try {
-    const data = await dashboardApi.get<ApiProject[]>('/api/projects');
+    const data = await dashboardApi.get<ApiProject[]>(DASHBOARD_ENDPOINTS.projects.list);
     return data.map(normalizeProject);
   } catch {
     return [];
@@ -136,7 +137,7 @@ export interface SimpleProject {
 
 export async function fetchSimpleProjects(): Promise<SimpleProject[]> {
   try {
-    return await dashboardApi.get<SimpleProject[]>('/api/projects/select');
+    return await dashboardApi.get<SimpleProject[]>(DASHBOARD_ENDPOINTS.projects.select);
   } catch {
     const all = await fetchProjects();
     return all.map((p) => ({ id: p.id, name: p.name }));
@@ -197,7 +198,7 @@ export async function fetchBookingsPaginated(
 ): Promise<PaginatedBookings> {
   try {
     const data = await dashboardApi.get<ApiBookingsResponse>(
-      `/api/bookings?page=${page}&page_size=${pageSize}`,
+      DASHBOARD_ENDPOINTS.bookings.paginated(page, pageSize),
     );
     return {
       items: data.items.map(mapBooking),
