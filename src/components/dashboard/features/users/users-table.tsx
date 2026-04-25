@@ -1,9 +1,12 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 
-import { Link } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useConfirm } from '@/components/shared/confirm-modal';
+import { deleteUserAction } from '@/actions/dashboard/users';
 import { EntityTable } from '@/components/dashboard/shared/entity-table';
 
 import type { ColumnDef } from '@tanstack/react-table';
@@ -21,6 +24,34 @@ interface Props {
 export function UsersTable({ users }: Props) {
   const t = useTranslations('dashboard.users');
   const tRoles = useTranslations('dashboard.roles');
+  const tTable = useTranslations('dashboard.dataTable');
+  const router = useRouter();
+  const confirm = useConfirm();
+  const [, startTransition] = useTransition();
+
+  async function handleDelete(user: UserRow) {
+    const ok = await confirm({
+      iconVariant: 'danger',
+      title: t('deleteTitle'),
+      description: t('deleteConfirm', { name: user.fullName || user.username }),
+      confirmLabel: t('deleteConfirmLabel'),
+      cancelLabel: t('deleteCancelLabel'),
+      confirmVariant: 'destructive',
+    });
+    if (!ok) return;
+    const result = await deleteUserAction(user.id);
+    if (result.success) {
+      startTransition(() => router.refresh());
+    } else {
+      await confirm({
+        iconVariant: 'danger',
+        title: t('deleteFailed'),
+        description: result.message ?? t('deleteFailed'),
+        confirmLabel: t('deleteCancelLabel'),
+        cancelLabel: '',
+      });
+    }
+  }
 
   const rows = useMemo<UserRow[]>(
     () =>
@@ -91,24 +122,37 @@ export function UsersTable({ users }: Props) {
         enableHiding: false,
         cell: ({ row }) =>
           row.original.isSystemOwner ? null : (
-            <div className="flex gap-2">
-              <Link
-                href={`/dashboard/users/${row.original.id}`}
-                className="text-xs text-indigo-600 hover:underline"
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => router.push(`/dashboard/users/${row.original.id}`)}
+                title={tTable('view')}
+                className="hover:bg-dashboard-primary-50 hover:text-dashboard-primary-600 rounded p-1.5 text-slate-500 transition-colors"
               >
-                {t('file')}
-              </Link>
-              <Link
-                href={`/dashboard/users/${row.original.id}/edit`}
-                className="text-dashboard-primary-600 text-xs hover:underline"
+                <Eye className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push(`/dashboard/users/${row.original.id}/edit`)}
+                title={tTable('edit')}
+                className="hover:bg-dashboard-primary-50 hover:text-dashboard-primary-600 rounded p-1.5 text-slate-500 transition-colors"
               >
-                {t('edit')}
-              </Link>
+                <Pencil className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDelete(row.original)}
+                title={tTable('delete')}
+                className="rounded p-1.5 text-red-500 transition-colors hover:bg-red-50"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
             </div>
           ),
       },
     ],
-    [t, tRoles],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [t, tRoles, tTable, router],
   );
 
   const filterConfigs = useMemo(

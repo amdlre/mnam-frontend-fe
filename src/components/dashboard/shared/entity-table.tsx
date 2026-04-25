@@ -214,6 +214,7 @@ export function EntityTable<T extends object>({
       meta={meta}
       messages={messages}
       isLoading={isLoading}
+      className='bg-card rounded-md border p-4 shadow-sm'
       renderSubRow={renderSubRow as unknown as ((row: Row) => ReactNode) | undefined}
       onRowClick={onRowClick as unknown as ((row: Row) => void) | undefined}
       getRowId={getRowId as unknown as ((row: Row, index: number) => string) | undefined}
